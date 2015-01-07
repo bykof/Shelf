@@ -8,26 +8,33 @@ from django.views.generic import TemplateView
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
+
+import inventory
+
 admin.autodiscover()
 
-urlpatterns = patterns('',
-    url(r'^$',  # noqa
-        TemplateView.as_view(template_name='pages/home.html'),
-        name="home"),
-    url(r'^about/$',
-        TemplateView.as_view(template_name='pages/about.html'),
-        name="about"),
+urlpatterns = patterns(
+	'',
+	url(
+		r'^$',  # noqa
+		TemplateView.as_view(template_name='pages/home.html'),
+		name="home"
+	),
+	url(
+		r'^about/$',
+		TemplateView.as_view(template_name='pages/about.html'),
+		name="about",
+	),
+	# Uncomment the next line to enable the admin:
+	url(r'^admin/', include(admin.site.urls)),
 
-    # Uncomment the next line to enable the admin:
-    url(r'^admin/', include(admin.site.urls)),
+	# User management
+	url(r'^users/', include("users.urls", namespace="users")),
+	url(r'^accounts/', include('allauth.urls')),
 
-    # User management
-    url(r'^users/', include("users.urls", namespace="users")),
-    url(r'^accounts/', include('allauth.urls')),
+	# Uncomment the next line to enable avatars
+	url(r'^avatar/', include('avatar.urls')),
 
-    # Uncomment the next line to enable avatars
-    url(r'^avatar/', include('avatar.urls')),
-
-    # Your stuff: custom urls go here
+	url(r'^inventory/', include('inventory.urls')),
 
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
