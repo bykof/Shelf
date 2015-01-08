@@ -35,4 +35,6 @@ django-avatar==2.0
 # Time zones support
 pytz==2014.10
 
-# Your custom requirements go here
+#For LDAP Access / Login
+django-auth-ldap==1.2.4
+django-ldap-sync==0.1.1
