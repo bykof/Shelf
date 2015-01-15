@@ -9,8 +9,6 @@ from django.views.generic import TemplateView
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 
-import inventory
-
 admin.autodiscover()
 
 urlpatterns = patterns(
@@ -24,6 +22,8 @@ urlpatterns = patterns(
     url(r'^users/', include("users.urls", namespace="users")),
     url(r'^accounts/', include('allauth.urls')),  # Uncomment the next line to enable avatars
     url(r'^avatar/', include('avatar.urls')),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api/', include('api.urls')),
 
     url(r'^inventory/', include('inventory.urls')),
 

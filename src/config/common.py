@@ -44,10 +44,12 @@ class Common(Configuration):
         'allauth.account',  # registration
         'ldap_sync',  # ldap sync
         'taggit',  # django create easy tags
+        'rest_framework'  # rest framework for angular
     )
 
     # Apps specific for this project go here.
     LOCAL_APPS = (
+        'api',
         'users',  # custom users app
         'inventory',
         'booking',
@@ -116,6 +118,14 @@ class Common(Configuration):
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
     )
     # END MIDDLEWARE CONFIGURATION
+
+    # REST FRAMEWORK CONFIGURATION
+    REST_FRAMEWORK = {
+        'DEFAULT_PERMISSION_CLASSES': (
+            'rest_framework.permissions.IsAuthenticated',
+        )
+    }
+    # END REST FRAMEWORK CONFIGURATION
 
     # MIGRATIONS CONFIGURATION
     MIGRATION_MODULES = {
