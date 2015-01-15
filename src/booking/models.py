@@ -83,7 +83,7 @@ class Order(BookingModel):
     delivery_received_on = models.DateTimeField(null=True, blank=True)
     delivery_received_by = models.ForeignKey(User, null=True, blank=True, related_name='received_orders')
     status = models.CharField(max_length=255, choices=STATUS_CHOICES)
-    invoice_document = models.FileField()
+    invoice_document = models.FileField(null=True, blank=True)
     tags = TaggableManager()
 
     class Meta:

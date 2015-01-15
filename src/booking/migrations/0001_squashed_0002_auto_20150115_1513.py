@@ -3,11 +3,13 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 import datetime
-import taggit.managers
 from django.conf import settings
+import taggit.managers
 
 
 class Migration(migrations.Migration):
+
+    replaces = [(b'booking', '0001_initial'), (b'booking', '0002_auto_20150115_1513')]
 
     dependencies = [
         ('taggit', '0001_initial'),
@@ -113,6 +115,38 @@ class Migration(migrations.Migration):
             model_name='order',
             name='tags',
             field=taggit.managers.TaggableManager(to='taggit.Tag', through='taggit.TaggedItem', help_text='A comma-separated list of tags.', verbose_name='Tags'),
+            preserve_default=True,
+        ),
+        migrations.AlterModelOptions(
+            name='article',
+            options={'verbose_name': 'Article', 'verbose_name_plural': 'Articles'},
+        ),
+        migrations.AlterModelOptions(
+            name='order',
+            options={'verbose_name': 'Order', 'verbose_name_plural': 'Orders'},
+        ),
+        migrations.AlterModelOptions(
+            name='ordercategory',
+            options={'verbose_name': 'Order category', 'verbose_name_plural': 'Order categories'},
+        ),
+        migrations.AlterModelOptions(
+            name='paymentmethod',
+            options={'verbose_name': 'Payment method', 'verbose_name_plural': 'Payment methods'},
+        ),
+        migrations.AlterModelOptions(
+            name='supplier',
+            options={'verbose_name': 'Supplier', 'verbose_name_plural': 'Suppliers'},
+        ),
+        migrations.AlterField(
+            model_name='order',
+            name='bought_on',
+            field=models.DateTimeField(default=datetime.datetime(2015, 1, 15, 15, 13, 15, 678006)),
+            preserve_default=True,
+        ),
+        migrations.AlterField(
+            model_name='order',
+            name='invoice_document',
+            field=models.FileField(null=True, upload_to=b'', blank=True),
             preserve_default=True,
         ),
     ]
