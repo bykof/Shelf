@@ -50,6 +50,7 @@ class Common(Configuration):
     LOCAL_APPS = (
         'users',  # custom users app
         'inventory',
+        'booking',
     )
 
     # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

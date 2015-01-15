@@ -5,7 +5,7 @@ from django.db import models
 
 from taggit.managers import TaggableManager
 
-from ..users.models import User
+from users.models import User
 
 
 class BookingModel(models.Model):
@@ -16,19 +16,47 @@ class BookingModel(models.Model):
 class OrderCategory(BookingModel):
     name = models.CharField(max_length=255)
 
+    class Meta:
+        verbose_name = _('Order category')
+        verbose_name_plural = _('Order categories')
+
+    def __unicode__(self):
+        return u'{}'.format(self.name)
+
 
 class Article(BookingModel):
     name = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=8, decimal_places=2)
+
+    class Meta:
+        verbose_name = _('Article')
+        verbose_name_plural = _('Articles')
+
+    def __unicode__(self):
+        return u'{} - {}'.format(self.name, self.price)
 
 
 class PaymentMethod(BookingModel):
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
 
+    class Meta:
+        verbose_name = _('Payment method')
+        verbose_name_plural = _('Payment methods')
+
+    def __unicode__(self):
+        return u'{} - {}'.format(self.name, self.description[:20])
+
 
 class Supplier(BookingModel):
     name = models.CharField(max_length=255)
+
+    class Meta:
+        verbose_name = _('Supplier')
+        verbose_name_plural = _('Suppliers')
+
+    def __unicode__(self):
+        return u'{}'.format(self.name)
 
 
 class Order(BookingModel):
@@ -57,3 +85,10 @@ class Order(BookingModel):
     status = models.CharField(max_length=255, choices=STATUS_CHOICES)
     invoice_document = models.FileField()
     tags = TaggableManager()
+
+    class Meta:
+        verbose_name = _('Order')
+        verbose_name_plural = _('Orders')
+
+    def __unicode__(self):
+        return _(u'Article {} bought on {}'.format(self.article, self.bought_on))

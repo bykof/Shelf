@@ -10,8 +10,8 @@ try:
 except ImportError:
     from distutils.core import setup
 
-import Shelf
-version = Shelf.__version__
+import src
+version = src.__version__
 
 setup(
     name='Shelf',
