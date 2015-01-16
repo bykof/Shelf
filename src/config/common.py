@@ -44,7 +44,7 @@ class Common(Configuration):
         'allauth.account',  # registration
         'ldap_sync',  # ldap sync
         'taggit',  # django create easy tags
-        'rest_framework'  # rest framework for angular
+        'rest_framework',  # rest framework for angular
     )
 
     # Apps specific for this project go here.
@@ -123,6 +123,9 @@ class Common(Configuration):
     REST_FRAMEWORK = {
         'DEFAULT_PERMISSION_CLASSES': (
             'rest_framework.permissions.IsAuthenticated',
+        ),
+        'DEFAULT_FILTER_BACKENDS': (
+            'rest_framework.filters.DjangoFilterBackend',
         )
     }
     # END REST FRAMEWORK CONFIGURATION

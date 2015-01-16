@@ -1,54 +1,65 @@
-from rest_framework import status
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
+from rest_framework import generics
 
-from booking.models import Order
-from api.serializers import OrderSerializer
-
-
-@api_view(['GET', 'POST'])
-def order_list(request):
-    """
-    List all orders, or create a new order.
-    """
-    if request.method == 'GET':
-        orders = Order.objects.all()
-        serializer = OrderSerializer(orders, many=True)
-        return Response(serializer.data)
-
-    elif request.method == 'POST':
-        serializer = OrderSerializer(data=request.DATA)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(
-                serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+from booking.models import Order, OrderCategory, Article, PaymentMethod, \
+    Supplier
+from api.serializers import OrderSerializer, OrderCategorySerializer, ArticleSerializer, \
+    PaymentMethodSerializer, SupplierSerializer
 
 
-@api_view(['GET', 'PUT', 'DELETE'])
-def order_detail(request, pk):
-    """
-    Get, udpate, or delete a specific task
-    """
-    try:
-        order = Order.objects.get(pk=pk)
-    except Order.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+"""
+BOOKING CLASS BASED VIEWS
+"""
 
-    if request.method == 'GET':
-        serializer = OrderSerializer(order)
-        return Response(serializer.data)
 
-    elif request.method == 'PUT':
-        serializer = OrderSerializer(order, data=request.DATA)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        else:
-            return Response(
-                serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class OrderCategoryList(generics.ListCreateAPIView):
+    queryset = OrderCategory.objects.all()
+    serializer_class = OrderCategorySerializer
 
-    elif request.method == 'DELETE':
-        order.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class OrderCategoryDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = OrderCategory.objects.all()
+    serializer_class = OrderCategorySerializer
+
+
+class ArticleList(generics.ListCreateAPIView):
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer
+
+
+class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer
+
+
+class PaymentMethodList(generics.ListCreateAPIView):
+    queryset = PaymentMethod.objects.all()
+    serializer_class = PaymentMethodSerializer
+
+
+class PaymentMethodDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = PaymentMethod.objects.all()
+    serializer_class = PaymentMethodSerializer
+
+
+class SupplierList(generics.ListCreateAPIView):
+    queryset = Supplier.objects.all()
+    serializer_class = SupplierSerializer
+
+
+class SupplierDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Supplier.objects.all()
+    serializer_class = SupplierSerializer
+
+
+class OrderList(generics.ListCreateAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    filter_fields = ('order_number', 'purpose')
+
+
+class OrderDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+
+
+
