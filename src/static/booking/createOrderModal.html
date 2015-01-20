@@ -1,0 +1,42 @@
+<div class="modal-header">
+	<h3 class="modal-title">Neue Bestellung erstellen</h3>
+</div>
+<div class="modal-body">
+	<div class="row">
+		<div class="col-md-6">
+			<label for="article">{{ article.label }}: </label>
+			<select id="article">
+				<option ng-repeat="article_choice in article.choices">{{ article_choice.display_name }}</option>
+			</select>
+		</div>
+		<div class="col-md-6">
+			<label for="bought_by">{{ bought_by.label }}: </label>
+			<select id="bought_by">
+				<option ng-repeat="bought_by_choice in bought_by.choices">{{ bought_by_choice.display_name }}</option>
+			</select>
+		</div>
+	</div>
+	<br>
+	<div class="row">
+		<div class="col-md-6">
+			<label for="bought_on">{{ bought_on.label }}</label>
+			<p class="input-group">
+             	<input type="text" class="form-control" datepicker-popup="{{ format }}" ng-model="dt" is-open="opened"
+                       datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+              	<span class="input-group-btn">
+                	<button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+              	</span>
+            </p>
+		</div>
+		<div class="col-md-6">
+			<label for="status">{{ status.label }}: </label>
+			<select id="status">
+				<option ng-repeat="status_choice in status.choices">{{ status_choice.display_name }}</option>
+			</select>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="ok()">OK</button>
+	<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>

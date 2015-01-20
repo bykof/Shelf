@@ -9,22 +9,14 @@ from django.views.generic import TemplateView
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 
+from src.views import index
+
 admin.autodiscover()
 
 urlpatterns = patterns(
     '',
-    url(
-        r'^$',  # noqa
-        TemplateView.as_view(template_name='pages/home.html'),
-        name="home"
-    ),  # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),  # User management
-    url(r'^users/', include("users.urls", namespace="users")),
-    url(r'^accounts/', include('allauth.urls')),  # Uncomment the next line to enable avatars
-    url(r'^avatar/', include('avatar.urls')),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/', include('api.urls')),
+    url('^.*$', index, name='index'),
 
-    url(r'^inventory/', include('inventory.urls')),
-
-) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+)

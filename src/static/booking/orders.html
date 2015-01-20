@@ -1,0 +1,43 @@
+<div ng-controller="OrderListController">
+	<div class="row">
+		<div class="col-md-2">
+			<button class="btn btn-default" ng-click="createNewOrder()">
+				Neu erstellen <span class="glyphicon glyphicon-plus"></span>
+			</button>
+		</div>
+		<div class="col-md-2 col-md-offset-8">
+			<input type="text" ng-model="ordersFilter" class="form-control floating-label" placeholder="Filter">
+		</div>
+	</div>
+	<hr>
+	<table class="table">
+		<tr>
+			<th>ID</th>
+			<th>Artikel</th>
+			<th>Gekauft von</th>
+			<th>Gekauft an</th>
+			<th>Kategorie</th>
+			<th>Erstellt</th>
+			<th>Bestellnummer</th>
+			<th>Verwendungszweck</th>
+			<th>Status</th>
+			<th>L&ouml;schen</th>
+		</tr>
+		<tr ng-repeat="order in orders | filter: ordersFilter">
+			<td>{{ order.id }}</td>
+			<td>{{ order.article }}</td>
+			<td>{{ order.bought_by }}</td>
+			<td>{{ order.bought_on }}</td>
+			<td>{{ order.category }}</td>
+			<td>{{ order.created }}</td>
+			<td>{{ order.order_number }}</td>
+			<td>{{ order.purpose }}</td>
+			<td>{{ order.status }}</td>
+			<td class="text-center">
+				<a href="" ng-click="deleteOrder(order.id)">
+					<span class="glyphicon glyphicon-remove"></span>
+				</a>
+			</td>
+		</tr>
+	</table>
+</div>

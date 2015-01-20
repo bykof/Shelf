@@ -1,8 +1,8 @@
 from django.shortcuts import render
 
 
-def booking(request):
+def index(request):
     return render(
         request,
-        'booking/booking.html',
+        'base.html'
     )

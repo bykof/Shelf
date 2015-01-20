@@ -1,0 +1,1 @@
+angular.module('shelf', ['ui.bootstrap','dialogs','ngRoute']);

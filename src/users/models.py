@@ -12,4 +12,4 @@ from django.utils.translation import ugettext_lazy as _
 class User(AbstractUser):
 
     def __unicode__(self):
-        return self.username
+        return u'{} {}'.format(self.first_name, self.last_name)

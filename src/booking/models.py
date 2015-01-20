@@ -73,7 +73,7 @@ class Order(BookingModel):
     )
 
     bought_by = models.ForeignKey(User, related_name='bought_orders')
-    bought_on = models.DateTimeField(default=datetime.datetime.now())
+    bought_on = models.DateTimeField(null=True)
     category = models.ForeignKey(OrderCategory, related_name='orders')
     article = models.ForeignKey(Article, related_name='orders')
     supplier = models.ForeignKey(Supplier, related_name='orders')
@@ -82,9 +82,9 @@ class Order(BookingModel):
     order_number = models.CharField(max_length=255)
     delivery_received_on = models.DateTimeField(null=True, blank=True)
     delivery_received_by = models.ForeignKey(User, null=True, blank=True, related_name='received_orders')
-    status = models.CharField(max_length=255, choices=STATUS_CHOICES)
+    status = models.CharField(max_length=255, choices=STATUS_CHOICES, default=ORDERED)
     invoice_document = models.FileField(null=True, blank=True)
-    tags = TaggableManager()
+    tags = TaggableManager(blank=True)
 
     class Meta:
         verbose_name = _('Order')
