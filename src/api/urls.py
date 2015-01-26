@@ -5,6 +5,11 @@ from . import views
 urlpatterns = patterns(
     'api.views',
 
+    # LOGIN LOGOUT URLS
+    url(r'^login/$', views.login_view, name='login'),
+    url(r'^logout/$', views.logout_view, name='logout'),
+    url(r'^is-logged-in/$', views.is_logged_in, name='is_logged_in'),
+
     # BOOKING URLS
 
     url(r'^order-categories/$', views.OrderCategoryList.as_view(), name='order_category_list'),

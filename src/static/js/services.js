@@ -1,6 +1,6 @@
 var shelfModule = angular.module("shelf");
 
-shelfModule.service("orderService",["$http", "$q", function($http, $q) {
+shelfModule.service("orderService", function($http, $q) {
     $http.defaults.headers.common['X-CSRFToken'] = $.cookie('csrftoken');
 
     return({
@@ -43,7 +43,7 @@ shelfModule.service("orderService",["$http", "$q", function($http, $q) {
             url: "/api/orders/" + orderId
         });
 
-        return(request.then(handleSuccess, handleError));
+        return (request.then(handleSuccess, handleError));
     }
 
     function handleError( response ) {
@@ -63,4 +63,57 @@ shelfModule.service("orderService",["$http", "$q", function($http, $q) {
     function handleSuccess( response ) {
         return(response.data);
     }
-}]);
+});
+
+shelfModule.service("loginService", function($http, $q) {
+    $http.defaults.headers.common['X-CSRFToken'] = $.cookie('csrftoken');
+
+    return ({
+        login: login,
+        logout: logout,
+        isLoggedIn: isLoggedIn
+    });
+
+    function login(data) {
+        var request = $http({
+            method: "post",
+            url: "/api/login/",
+            data: data
+        });
+        return (request.then(handleSuccess, handleError));
+    }
+
+    function logout() {
+        var request = $http({
+            method: "get",
+            url: "/api/logout/"
+        });
+        return (request.then(handleSuccess, handleError));
+    }
+
+    function isLoggedIn() {
+        var request = $http({
+            method: "get",
+            url: "/api/is-logged-in/"
+        });
+        return (request.then(handleSuccess, handleError));
+    }
+
+    function handleError( response ) {
+        if (
+            ! angular.isObject( response.data ) ||
+            ! response.data.message
+            ) {
+            return( $q.reject( "An unknown error occurred." ) );
+        }
+        // Otherwise, use expected error message.
+        return( $q.reject( response.data.message ) );
+    }
+
+
+    // I transform the successful response, unwrapping the application data
+    // from the API response payload.
+    function handleSuccess( response ) {
+        return(response.data);
+    }
+});

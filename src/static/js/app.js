@@ -1,1 +1,1 @@
-angular.module('shelf', ['ui.bootstrap','dialogs','ngRoute']);
+angular.module('shelf', ['ui.bootstrap', 'ui.select', 'dialogs', 'ngRoute']);
