@@ -2,6 +2,12 @@ var shelfModule = angular.module("shelf");
 
 shelfModule.controller("HomeController", function($rootScope, $scope) {
     $scope.name = "Michael";
+    $scope.notify = function(type) {
+        if (type == "simple") {
+            toast('I am a toast!', 4000);
+        }
+
+    };
 });
 
 shelfModule.controller("navbarController", function($rootScope, $scope, $location, loginService) {
@@ -9,52 +15,49 @@ shelfModule.controller("navbarController", function($rootScope, $scope, $locatio
         loginService.logout().then( function(data) {
             if (data == 200) {
                 $rootScope.loggedIn = false;
-                $location.path("/");
+                $location.path("/login");
             }
         });
     }
 });
 
-shelfModule.controller("OrderListController", function($scope, $dialogs, $modal, $location, orderService) {
-    $.material.init();
-    refreshOrders(orderService, $scope);
+shelfModule.controller("newOrderController", function($scope) {
+    $scope.name = "Hi";
+});
 
-    $scope.deleteOrder = function (orderId, size) {
-        var modalInstance = $modal.open({
-            templateUrl: '/static/booking/deleteOrderModal.html',
-            controller: 'DeleteModalInstanceCtrl',
-            size: size
+shelfModule.controller("deleteOrderController", function($rootScope, $scope, orderService) {
+    $rootScope.$on("deleteOrderOpened", function(event, args) {
+        orderService.getOrder(args["orderId"]).then( function(order) {
+            $scope.order = order;
         });
+    });
 
-        modalInstance.orderId = orderId;
-        modalInstance.result.then(function () {
-            orderService.deleteOrder(orderId).then( function(data) {
-                refreshOrders(orderService, $scope);
-            });
-        });
-    };
-
-    $scope.createNewOrder = function (size) {
-        var modalInstance = $modal.open({
-            templateUrl: '/static/booking/createOrderModal.html',
-            controller: 'CreateModalInstanceCtrl',
-            size: size
-        });
-
-        modalInstance.result.then(function (selectedItem) {
-            $scope.selected = selectedItem;
+    $scope.deleteOrder = function(orderId) {
+        orderService.deleteOrder(orderId).then( function () {
+            $('#deleteOrder').closeModal();
+            $rootScope.$emit("refreshOrders");
+            toast('Bestellung gelöscht!', 4000);
         });
     };
 });
 
-shelfModule.controller("DeleteModalInstanceCtrl", function ($scope, $modalInstance) {
-    $scope.ok = function () {
-        $modalInstance.close();
+shelfModule.controller("OrderListController", function($rootScope, $scope, $location, orderService) {
+    $rootScope.$emit("refreshOrders");
+    $rootScope.$on("refreshOrders", function() {
+        orderService.getOrders().then( function(orders) {
+            $scope.orders = orders;
+        });
+    });
+
+    $scope.createNewOrder = function() {
+       $('#createNewOrder').openModal();
     };
 
-    $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
-    };
+    $scope.deleteOrder = function(orderId) {
+        $('#deleteOrder').openModal();
+        var args = {'orderId': orderId};
+        $rootScope.$emit("deleteOrderOpened", args);
+    }
 });
 
 shelfModule.controller("LoginController", function($rootScope, $scope, $location, loginService) {
@@ -72,57 +75,3 @@ shelfModule.controller("LoginController", function($rootScope, $scope, $location
         }
     }
 );
-
-
-shelfModule.controller("CreateModalInstanceCtrl", function ($scope, $modalInstance, orderService) {
-    orderService.getOptions().then( function(options) {
-       angular.forEach(options.actions.POST, function(value, key) {
-            $scope[key] = value;
-        });
-    });
-
-    $scope.ok = function () {
-        console.log($scope.article.selected);
-        console.log($scope.bought_by.selected);
-        $modalInstance.close();
-    };
-
-    $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
-    };
-
-    $scope.today = function() {
-        $scope.dt = new Date();
-    };
-
-    $scope.today();
-
-    $scope.clear = function () {
-        $scope.dt = null;
-    };
-
-    $scope.toggleMin = function() {
-        $scope.minDate = $scope.minDate ? null : new Date();
-    };
-    $scope.toggleMin();
-
-    $scope.open = function($event) {
-        $event.preventDefault();
-        $event.stopPropagation();
-
-        $scope.opened = true;
-    };
-
-    $scope.dateOptions = {
-        formatYear: 'yy',
-        startingDay: 1
-    };
-
-    $scope.format = 'dd.MM.yyyy';
-});
-
-function refreshOrders(orderService, $scope) {
-    orderService.getOrders().then( function(orders) {
-        $scope.orders = orders;
-    });
-}

@@ -12,35 +12,22 @@
 		  <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 
-		<!-- Latest compiled and minified CSS -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="{% static 'bower_components/lumx/dist/css/lumx.css' %}">
+		<link type="text/css" rel="stylesheet"
+		      href="{% static 'bower_components/materialize/dist/css/materialize.min.css' %}"  media="screen,projection"/>
+		<link rel="stylesheet" href="{% static 'css/project.css' %}">
 
-		<!-- Optional theme -->
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.2.1/css/material-wfont.min.css">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.2.1/css/material.min.css">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.2.1/css/ripples.min.css">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.2.1/fonts/Material-Design-Icons.woff">
-
-		<!-- Your stuff: Third-party css libraries go here -->
-		<link href="{% static 'css/select.min.css' %}" rel="stylesheet">
-
-		<!-- This file store project specific CSS -->
-		<link href="{% static 'css/project.css' %}" rel="stylesheet">
-
-		<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+		<script src="{% static 'bower_components/jquery/dist/jquery.js' %}"></script>
+		<script src="{% static 'bower_components/velocity/velocity.js' %}"></script>
+		<script src="{% static 'bower_components/moment/min/moment-with-locales.min.js' %}"></script>
+		<script src="{% static 'bower_components/angular/angular.js' %}"></script>
+		<script src="{% static 'bower_components/lumx/dist/js/lumx.js' %}"></script>
+		<script type="text/javascript"
+		        src="{% static 'bower_components/materialize/dist/js/materialize.min.js' %}"></script>
 		<script src="{% static "js/libs/jquery-cookie.js" %}"></script>
 
-		<!-- Latest compiled and minified JavaScript -->
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.2.1/js/material.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.2.1/js/ripples.min.js"></script>
-
-		<!-- place project specific Javascript in this file -->
-		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.9/angular.min.js"></script>
+		<script src="{% static 'bower_components/angular-utils-pagination/dirPagination.js' %}"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.9/angular-sanitize.js"></script>
-		<script src="{% static 'js/libs/ui-bootstrap-tpls-0.12.0.min.js' %}"></script>
-		<script src="{% static 'js/libs/dialogs.min.js' %}"></script>
-		<script src="{% static 'js/libs/select.min.js' %}"></script>
 		<script src="https://code.angularjs.org/1.2.28/angular-route.min.js"></script>
 
 		<script src="{% static 'js/app.js' %}"></script>
@@ -51,19 +38,18 @@
   	</head>
 
   	<body>
-		<div class="header navbar" ng-controller="navbarController">
-		  	<div class="container">
-				<a class="navbar-brand" href="/#/">Shelf</a>
-				<ul class="nav navbar-nav">
-			  		<li ng-show="loggedIn"><a href="/#/">Home</a></li>
-			  		<li ng-show="loggedIn"><a href="/#/booking">Booking</a></li>
+		<nav ng-controller="navbarController" class="brown">
+			<div class="nav-wrapper">
+				<a href="#" class="brand-logo">Shelf</a>
+			  	<ul id="nav-mobile" class="right side-nav">
+					<li ng-show="loggedIn"><a href="/#/">Home</a></li>
+					<li ng-show="loggedIn"><a href="/#/booking">Booking</a></li>
 					<li ng-show="loggedIn"><a href="{% url "admin:index" %}">Admin</a></li>
 					<li ng-show="loggedIn"><a href="" ng-click="logout()">Logout</a></li>
-					<li ng-hide="loggedIn"><a href="/#/login">Login</a></li>
-				</ul>
-		  	</div>
-		</div>
-
+			  	</ul>
+				<a class="button-collapse" href="#" data-activates="nav-mobile"><i class="mdi-navigation-menu"></i></a>
+			</div>
+	  	</nav>
 		<div class="container">
 			<div ng-view></div>
 		</div>

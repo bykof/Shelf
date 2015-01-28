@@ -1,3 +1,4 @@
 $(function() {
-    $.material.init();
+    $(".button-collapse").sideNav();
+    $('.modal-trigger').leanModal();
 });

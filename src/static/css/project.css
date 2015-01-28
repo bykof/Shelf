@@ -50,6 +50,29 @@
 .dialog-header-wait span, .dialog-header-wait h4,
 .dialog-header-confirm span, .dialog-header-confirm h4 { color: #ffffff; }
 
+.btn-small {
+    height: 24px;
+    line-height: 24px;
+    width: 24px;
+    padding: 0 2px;
+}
+
+.pagination-button {
+    margin: 0 2px;
+}
+
+.pagination-button.active {
+    color: white;
+}
+
+.container {
+    margin-top: 25px;
+}
+
+.brand-logo {
+    margin-left: 20px;
+}
+
 /* Ease Display */
 .pad {
     padding: 25px;

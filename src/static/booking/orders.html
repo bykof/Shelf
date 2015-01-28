@@ -1,43 +1,69 @@
 <div ng-controller="OrderListController">
 	<div class="row">
-		<div class="col-md-2">
-			<button class="btn btn-default" ng-click="createNewOrder()">
-				Neu erstellen <span class="glyphicon glyphicon-plus"></span>
-			</button>
-		</div>
-		<div class="col-md-2 col-md-offset-8">
-			<input type="text" ng-model="ordersFilter" class="form-control floating-label" placeholder="Filter">
+		<div class="valign-wrapper">
+			<div class="col s2 valign">
+				<a class="btn-floating btn-flat green waves-effect waves-dark modal-trigger" ng-click="createNewOrder()">
+					<i class="mdi-content-add"></i>
+				</a>
+			</div>
+			<div class="input-field col s2 offset-s8 valign">
+				<input type="text" ng-model="ordersFilter" class="validate">
+				<label for="first_name">Filter</label>
+			</div>
 		</div>
 	</div>
 	<hr>
-	<table class="table">
-		<tr>
-			<th>ID</th>
-			<th>Artikel</th>
-			<th>Gekauft von</th>
-			<th>Gekauft an</th>
-			<th>Kategorie</th>
-			<th>Erstellt</th>
-			<th>Bestellnummer</th>
-			<th>Verwendungszweck</th>
-			<th>Status</th>
-			<th>L&ouml;schen</th>
-		</tr>
-		<tr ng-repeat="order in orders | filter: ordersFilter">
-			<td>{{ order.id }}</td>
-			<td>{{ order.article }}</td>
-			<td>{{ order.bought_by }}</td>
-			<td>{{ order.bought_on }}</td>
-			<td>{{ order.category }}</td>
-			<td>{{ order.created }}</td>
-			<td>{{ order.order_number }}</td>
-			<td>{{ order.purpose }}</td>
-			<td>{{ order.status }}</td>
-			<td class="text-center">
-				<a href="" ng-click="deleteOrder(order.id)">
-					<span class="glyphicon glyphicon-remove"></span>
-				</a>
-			</td>
-		</tr>
+	<table class="responsive-table bordered">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Artikel</th>
+				<th>Gekauft von</th>
+				<th>Gekauft an</th>
+				<th>Kategorie</th>
+				<th>Erstellt</th>
+				<th>Bestellnummer</th>
+				<th>Verwendungszweck</th>
+				<th>Status</th>
+				<th>L&ouml;schen</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr dir-paginate="order in orders | filter: ordersFilter | itemsPerPage: 20">
+				<td>{{ order.id }}</td>
+				<td>{{ order.article }}</td>
+				<td>{{ order.bought_by }}</td>
+				<td>{{ order.bought_on }}</td>
+				<td>{{ order.category }}</td>
+				<td>{{ order.created }}</td>
+				<td>{{ order.order_number }}</td>
+				<td>{{ order.purpose }}</td>
+				<td>{{ order.status }}</td>
+				<td class="center-align">
+					<a class="btn-floating btn-flat waves-effect waves-dark" ng-click="deleteOrder(order.id)">
+						<i class="mdi-content-remove red-text"></i>
+					</a>
+				</td>
+			</tr>
+		</tbody>
 	</table>
+	<dir-pagination-controls></dir-pagination-controls>
+</div>
+
+<div id="createNewOrder" class="modal" ng-controller="newOrderController" style="display: none;">
+	<h4>Neue Bestellung</h4>
+	<p>{{ name }}</p>
+	<div class="action-bar">
+		<button class="waves-effect waves-light btn-flat modal-action modal-close red">Abbrechen</button>
+  		<button class="waves-effect waves-light btn-flat modal-action green">Speichern</button>
+	</div>
+</div>
+
+<div id="deleteOrder" class="modal" ng-controller="deleteOrderController" style="display: none;">
+	<h4>Bestellung l&ouml;schen</h4>
+	<p>{{ order.id }}</p>
+	<div class="action-bar">
+		<button class="waves-effect waves-light btn-flat modal-action modal-close red">Abbrechen</button>
+  		<button ng-click="deleteOrder(order.id)" class="waves-effect waves-light btn-flat modal-action green">Best&auml;tigen</button>
+	</div>
 </div>

@@ -32,7 +32,8 @@
 			<label for="bought_on">{{ bought_on.label }}</label>
 			<p class="input-group">
              	<input type="text" class="form-control" datepicker-popup="{{ format }}" ng-model="dt" is-open="opened"
-                       datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                       datepicker-options="dateOptions"
+                       ng-required="true" close-text="Close"/>
               	<span class="input-group-btn">
                 	<button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
               	</span>
@@ -40,7 +41,7 @@
 		</div>
 		<div class="col-md-6">
 			<label for="status">{{ status.label }}: </label>
-			<ui-select ng-model="status.choices.selected" theme="selectize" ng-disabled="disabled">
+			<ui-select ng-model="status.selected" theme="selectize" ng-disabled="disabled">
 				<ui-select-match placeholder="Status">
 					{{ $select.selected.display_name }}
 				</ui-select-match>
