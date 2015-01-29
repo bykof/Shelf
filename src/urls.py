@@ -9,7 +9,7 @@ from django.views.generic import TemplateView
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 
-from src.views import index
+from views import index
 
 admin.autodiscover()
 
