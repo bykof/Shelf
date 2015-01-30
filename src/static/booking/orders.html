@@ -13,40 +13,7 @@
 		</div>
 	</div>
 	<hr>
-	<table class="responsive-table bordered">
-		<thead>
-			<tr>
-				<th>ID</th>
-				<th>Artikel</th>
-				<th>Gekauft von</th>
-				<th>Gekauft an</th>
-				<th>Kategorie</th>
-				<th>Erstellt</th>
-				<th>Bestellnummer</th>
-				<th>Verwendungszweck</th>
-				<th>Status</th>
-				<th>L&ouml;schen</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr dir-paginate="order in orders | filter: ordersFilter | itemsPerPage: 20">
-				<td>{{ order.id }}</td>
-				<td>{{ order.article }}</td>
-				<td>{{ order.bought_by }}</td>
-				<td>{{ order.bought_on }}</td>
-				<td>{{ order.category }}</td>
-				<td>{{ order.created }}</td>
-				<td>{{ order.order_number }}</td>
-				<td>{{ order.purpose }}</td>
-				<td>{{ order.status }}</td>
-				<td class="center-align">
-					<a class="btn-floating btn-flat waves-effect waves-dark" ng-click="deleteOrder(order.id)">
-						<i class="mdi-content-remove red-text"></i>
-					</a>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+	<div ng-include="order_template"></div>
 	<dir-pagination-controls></dir-pagination-controls>
 </div>
 

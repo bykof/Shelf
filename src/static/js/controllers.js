@@ -41,11 +41,19 @@ shelfModule.controller("deleteOrderController", function($rootScope, $scope, ord
     };
 });
 
+shelfModule.controller("OrderDetailController", function($scope, $routeParams, orderService) {
+    orderService.getOrder($routeParams.orderId).then( function(order) {
+        $scope.order = order;
+    });
+});
+
 shelfModule.controller("OrderListController", function($rootScope, $scope, $location, orderService) {
     $rootScope.$emit("refreshOrders");
     $rootScope.$on("refreshOrders", function() {
+        $scope.order_template = "/static/booking/circle-progress.html";
         orderService.getOrders().then( function(orders) {
             $scope.orders = orders;
+            $scope.order_template = "/static/booking/order-table.html";
         });
     });
 

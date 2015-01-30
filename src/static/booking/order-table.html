@@ -1,0 +1,40 @@
+<table class="responsive-table bordered">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Artikel</th>
+			<th>Gekauft von</th>
+			<th>Gekauft an</th>
+			<th>Kategorie</th>
+			<th>Erstellt</th>
+			<th>Bestellnummer</th>
+			<th>Verwendungszweck</th>
+			<th>Status</th>
+			<th>L&ouml;schen</th>
+			<th>Detailsicht</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr dir-paginate="order in orders | filter: ordersFilter | itemsPerPage: 20">
+			<td>{{ order.id }}</td>
+			<td>{{ order.article.name }}</td>
+			<td>{{ order.bought_by.first_name }} {{ order.bought_by.last_name }}</td>
+			<td>{{ order.bought_on | date : "d.MM.yyyy" }}</td>
+			<td>{{ order.category.name }}</td>
+			<td>{{ order.created | date : "d.MM.yyyy" }}</td>
+			<td>{{ order.order_number }}</td>
+			<td>{{ order.purpose }}</td>
+			<td>{{ order.status }}</td>
+			<td class="center-align">
+				<a class="btn-floating btn-flat waves-effect waves-dark" ng-click="deleteOrder(order.id)">
+					<i class="mdi-content-remove red-text"></i>
+				</a>
+			</td>
+			<td class="center-align">
+				<a class="btn-floating btn-flat waves-effect waves-dark" href="#/orders/{{ order.id }}">
+					<i class="mdi-action-list black-text"></i>
+				</a>
+			</td>
+		</tr>
+	</tbody>
+</table>

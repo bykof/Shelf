@@ -19,6 +19,10 @@ shelfModule.config(function($routeProvider) {
             templateUrl: booking_static_url + "orders.html",
             controller: "OrderListController"
         }).
+        when('/orders/:orderId', {
+            templateUrl: booking_static_url + "order-detail.html",
+            controller: "OrderDetailController"
+        }).
         when('/booking', {
             redirectTo: '/orders'
         }).

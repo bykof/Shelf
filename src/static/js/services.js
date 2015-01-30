@@ -1,5 +1,50 @@
 var shelfModule = angular.module("shelf");
 
+shelfModule.service("articleService", function($http, $q) {
+    $http.defaults.headers.common['X-CSRFToken'] = $.cookie('csrftoken');
+
+    return ({
+        getArticles: getArticles,
+        getArticle: getArticle
+    });
+
+    function getArticles() {
+        var request = $http({
+            method: "get",
+            url: "api/articles/?format=json"
+        });
+
+        return request.then(handleSuccess, handleError);
+    }
+
+    function getArticle(id) {
+        var request = $http({
+            method: "get",
+            url: "api/articles/" + id + "/?format=json"
+        });
+
+        return request.then(handleSuccess, handleError);
+    }
+
+    function handleError( response ) {
+        if (
+            ! angular.isObject( response.data ) ||
+            ! response.data.message
+            ) {
+            return( $q.reject( "An unknown error occurred." ) );
+        }
+        // Otherwise, use expected error message.
+        return( $q.reject( response.data.message ) );
+    }
+
+
+    // I transform the successful response, unwrapping the application data
+    // from the API response payload.
+    function handleSuccess( response ) {
+        return(response.data);
+    }
+});
+
 shelfModule.service("orderService", function($http, $q) {
     $http.defaults.headers.common['X-CSRFToken'] = $.cookie('csrftoken');
 
