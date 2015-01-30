@@ -1,8 +1,19 @@
 from rest_framework import serializers
 
+from users.models import User
+
 from booking.models import Order, OrderCategory, Article, PaymentMethod, \
     Supplier
 
+
+"""
+USER SERIALIZERS
+"""
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
 
 """
 BOOKING SERIALIZERS
@@ -30,5 +41,9 @@ class SupplierSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
+    article = ArticleSerializer()
+    bought_by = UserSerializer()
+    category = OrderCategorySerializer()
+
     class Meta:
         model = Order
