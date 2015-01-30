@@ -1,21 +1,24 @@
+predicate = {{ predicate }}
+reverse = {{ reverse }}
+
 <table class="responsive-table bordered">
 	<thead>
 		<tr>
-			<th>ID</th>
-			<th>Artikel</th>
-			<th>Gekauft von</th>
-			<th>Gekauft an</th>
-			<th>Kategorie</th>
-			<th>Erstellt</th>
-			<th>Bestellnummer</th>
-			<th>Verwendungszweck</th>
-			<th>Status</th>
+			<th><a href="" ng-click="predicate = 'id'; reverse=!reverse">ID</a></th>
+			<th><a href="" ng-click="predicate = 'article.name'; reverse=!reverse">Artikel</a></th>
+			<th><a href="" ng-click="predicate = 'bought_by.name'; reverse=!reverse">Gekauft von</a></th>
+			<th><a href="" ng-click="predicate = 'bought_on'; reverse=!reverse">Gekauft an</a></th>
+			<th><a href="" ng-click="predicate = 'category.name'; reverse=!reverse">Kategorie</a></th>
+			<th><a href="" ng-click="predicate = 'created'; reverse=!reverse">Erstellt</a></th>
+			<th><a href="" ng-click="predicate = 'order_number'; reverse=!reverse">Bestellnummer</a></th>
+			<th><a href="" ng-click="predicate = 'purpose'; reverse=!reverse">Verwendungszweck</a></th>
+			<th><a href="" ng-click="predicate = 'status'; reverse=!reverse">Status</a></th>
 			<th>L&ouml;schen</th>
 			<th>Detailsicht</th>
 		</tr>
 	</thead>
 	<tbody>
-		<tr dir-paginate="order in orders | filter: ordersFilter | itemsPerPage: 20">
+		<tr dir-paginate="order in orders | filter: ordersFilter | orderBy:predicate:reverse | itemsPerPage: 20">
 			<td>{{ order.id }}</td>
 			<td>{{ order.article.name }}</td>
 			<td>{{ order.bought_by.first_name }} {{ order.bought_by.last_name }}</td>
@@ -38,3 +41,4 @@
 		</tr>
 	</tbody>
 </table>
+<dir-pagination-controls></dir-pagination-controls>
