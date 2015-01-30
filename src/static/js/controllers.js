@@ -50,7 +50,7 @@ shelfModule.controller("OrderDetailController", function($scope, $routeParams, o
 shelfModule.controller("OrderListController", function($rootScope, $scope, $location, orderService) {
     $rootScope.$emit("refreshOrders");
     $rootScope.$on("refreshOrders", function() {
-        $scope.order_template = "/static/booking/circle-progress.html";
+        $scope.order_template = "/static/booking/progress.html";
         orderService.getOrders().then( function(orders) {
             $scope.orders = orders;
             $scope.order_template = "/static/booking/order-table.html";
