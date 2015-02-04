@@ -21,8 +21,16 @@ shelfModule.controller("navbarController", function($rootScope, $scope, $locatio
     }
 });
 
-shelfModule.controller("newOrderController", function($scope) {
-    $scope.name = "Hi";
+shelfModule.controller("newOrderController", function($scope, orderService) {
+    orderService.getOptions().then(function(data) {
+        angular.forEach(data.actions.POST, function(value, key) {
+            $scope[key] = value;
+        });
+    });
+
+    $scope.cancel = function() {
+        $('#createNewOrder').closeModal();
+    };
 });
 
 shelfModule.controller("deleteOrderController", function($rootScope, $scope, orderService) {
@@ -31,6 +39,11 @@ shelfModule.controller("deleteOrderController", function($rootScope, $scope, ord
             $scope.order = order;
         });
     });
+
+    $scope.cancel = function() {
+        $('#deleteOrder').closeModal();
+        $scope.order = null;
+    };
 
     $scope.deleteOrder = function(orderId) {
         orderService.deleteOrder(orderId).then( function () {

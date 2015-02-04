@@ -15,12 +15,15 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
 
+
 """
 BOOKING SERIALIZERS
 """
 
 
 class OrderCategorySerializer(serializers.ModelSerializer):
+    choices = serializers.ChoiceField([('id', 'name')])
+
     class Meta:
         model = OrderCategory
 
@@ -44,6 +47,9 @@ class OrderSerializer(serializers.ModelSerializer):
     article = ArticleSerializer()
     bought_by = UserSerializer()
     category = OrderCategorySerializer()
+    supplier = SupplierSerializer()
+    payment_method = PaymentMethodSerializer()
+    status = serializers.CharField(source='get_status_display')
 
     class Meta:
         model = Order

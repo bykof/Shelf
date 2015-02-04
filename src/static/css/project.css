@@ -50,6 +50,28 @@
 .dialog-header-wait span, .dialog-header-wait h4,
 .dialog-header-confirm span, .dialog-header-confirm h4 { color: #ffffff; }
 
+.ui-select-choices-row.ng-scope.active {
+    background-color: #fafafa;
+}
+
+.selectize-control > .selectize-dropdown {
+    margin-top: -15px;
+}
+
+.ui-select-choices-row {
+    padding: 10px;
+}
+
+.ui-select-choices-content.selectize-dropdown-content {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #f2f2f2;
+    border-radius: 2px;
+    height: 300px;
+    overflow: auto;
+    position: relative;
+}
+
 .btn-small {
     height: 24px;
     line-height: 24px;

@@ -1,58 +1,23 @@
-<div class="modal-header">
-	<h3 class="modal-title">Neue Bestellung erstellen</h3>
-</div>
-<div class="modal-body">
+<div id="createNewOrder" class="modal" ng-controller="newOrderController" style="display: none;">
 	<div class="row">
-		<div class="col-md-6">
-			<label for="article">{{ article.label }}: </label>
-			<ui-select ng-model="article.selected" theme="selectize" ng-disabled="disabled">
-				<ui-select-match placeholder="Artikel">
-					{{ $select.selected.display_name }}
-				</ui-select-match>
-				<ui-select-choices repeat="article_choices in article.choices | filter: $select.search">
-					<span>{{ article_choices.display_name }}</span>
-				</ui-select-choices>
-			</ui-select>
+		<div class="col s12">
+			<h4>Neue Bestellung</h4>
 		</div>
-		<div class="col-md-6">
-			<label for="bought_by">{{ bought_by.label }}: </label>
-			<ui-select ng-model="bought_by.selected" theme="selectize" ng-disabled="disabled">
-				<ui-select-match placeholder="Gekauft von">
-					{{ $select.selected.display_name }}
-				</ui-select-match>
-				<ui-select-choices repeat="bought_by_choices in bought_by.choices | filter: $select.search">
-					<span>{{ bought_by_choices.display_name }}</span>
+	</div>
+	<div class="row">
+		<div class="col s4">
+			<ui-select ng-model="delivery_received_by.selected" theme="selectize" ng-disabled="disabled">
+				<ui-select-match placeholder="Delivery Received By">{{$select.selected.display_name}}</ui-select-match>
+				<ui-select-choices repeat="delivery_received_by_choice in delivery_received_by.choices | filter: $select.search">
+				  	<span ng-bind-html="delivery_received_by_choice.display_name | highlight: $select.search"></span>
 				</ui-select-choices>
 			</ui-select>
 		</div>
 	</div>
-	<br>
-	<div class="row">
-		<div class="col-md-6">
-			<label for="bought_on">{{ bought_on.label }}</label>
-			<p class="input-group">
-             	<input type="text" class="form-control" datepicker-popup="{{ format }}" ng-model="dt" is-open="opened"
-                       datepicker-options="dateOptions"
-                       ng-required="true" close-text="Close"/>
-              	<span class="input-group-btn">
-                	<button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-              	</span>
-            </p>
-		</div>
-		<div class="col-md-6">
-			<label for="status">{{ status.label }}: </label>
-			<ui-select ng-model="status.selected" theme="selectize" ng-disabled="disabled">
-				<ui-select-match placeholder="Status">
-					{{ $select.selected.display_name }}
-				</ui-select-match>
-				<ui-select-choices repeat="status_choice in status.choices | filter: $select.search">
-					<span>{{ status_choice.display_name }}</span>
-				</ui-select-choices>
-			</ui-select>
-		</div>
+
+
+	<div class="action-bar">
+		<button ng-click="cancel()" class="waves-effect waves-light btn-flat red">Abbrechen</button>
+  		<button class="waves-effect waves-light btn-flat green">Speichern</button>
 	</div>
-</div>
-<div class="modal-footer">
-	<button class="btn btn-primary" ng-click="ok()">OK</button>
-	<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
 </div>

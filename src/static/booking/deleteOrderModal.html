@@ -1,14 +1,8 @@
-<div class="modal-header">
-	<h3 class="modal-title">Bestellung l&oumlschen</h3>
-</div>
-<div class="modal-body">
-	<div class="row">
-		<div class="col-md-12">
-			<p>Wollen Sie die Bestellung wirklich löschen?</p>
-		</div>
+<div id="deleteOrder" class="modal" ng-controller="deleteOrderController" style="display: none;">
+	<h4>Bestellung l&ouml;schen</h4>
+	<p>{{ order.id }}</p>
+	<div class="action-bar">
+		<button ng-click="cancel()" class="waves-effect waves-light btn-flat red">Abbrechen</button>
+  		<button ng-click="deleteOrder(order.id)" class="waves-effect waves-light btn-flat green">Best&auml;tigen</button>
 	</div>
-</div>
-<div class="modal-footer">
-	<button class="btn btn-primary" ng-click="ok()">OK</button>
-	<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
 </div>
