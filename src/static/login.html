@@ -1,16 +1,18 @@
 <div class="row" ng-controller="LoginController">
-	<div class="col-md-4 col-md-offset-4 text-center">
-		<h2>Log-In</h2>
+	<div class="col s12 center-align">
+		<h3>Login</h3>
 		<form class="login">
-			<div class="form-control-wrapper">
-				<input type="text" ng-model="loginModel.username" placeholder="Username" class="form-control empty">
-				<span class="material-input"></span>
+			<div class="input-field col s4 offset-s4">
+				<input type="text" ng-model="loginModel.username" id="username" class="validate">
+				<label for="username">Username</label>
 			</div>
-			<div class="form-control-wrapper">
-				<input type="password" ng-model="loginModel.password" placeholder="Passwort" class="form-control empty"/>
-				<span class="material-input"></span>
+			<div class="input-field col s4 offset-s4">
+				<input type="password" ng-model="loginModel.password" id="password" class="form-control empty"/>
+				<label for="password">Passwort</label>
 			</div>
-			<button class="btn btn-primary" type="submit" ng-click="login()">Einloggen</button>
+			<div class="col s4 offset-s4">
+				<button class="btn btn-primary" type="submit" ng-click="login()">Einloggen</button>
+			</div>
 		</form>
 		<div ng-show="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
 	</div>
