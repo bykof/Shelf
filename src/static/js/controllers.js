@@ -23,7 +23,7 @@ shelfModule.controller("navbarController", function($rootScope, $scope, $locatio
 
 shelfModule.controller("newOrderController", function($scope, orderService) {
     orderService.getOptions().then(function(data) {
-        angular.forEach(data.actions.POST, function(value, key) {
+        angular.forEach(data.choices, function(value, key) {
             $scope[key] = value;
         });
     });

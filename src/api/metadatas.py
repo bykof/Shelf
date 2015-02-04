@@ -1,0 +1,23 @@
+from django.db.models.fields.related import RelatedField
+
+from rest_framework import metadata
+
+
+class OrderMetadata(metadata.BaseMetadata):
+    def determine_metadata(self, request, view):
+        choices = {}
+        for field in view.get_serializer_class().Meta.model._meta.fields:
+            if isinstance(field, RelatedField):
+                if '_ptr' not in field.name:
+                    for model_id, display_name in field.get_choices(include_blank=False):
+                        print model_id
+                        print display_name
+                        print field.name
+                        if field.name not in choices:
+                            choices[field.name] = [{'id': model_id, 'display_name': display_name}]
+                        else:
+                            choices[field.name].append({'id': model_id, 'display_name': display_name})
+
+        return {
+            'choices': choices,
+        }

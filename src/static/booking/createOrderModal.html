@@ -6,15 +6,14 @@
 	</div>
 	<div class="row">
 		<div class="col s4">
-			<ui-select ng-model="delivery_received_by.selected" theme="selectize" ng-disabled="disabled">
-				<ui-select-match placeholder="Delivery Received By">{{$select.selected.display_name}}</ui-select-match>
-				<ui-select-choices repeat="delivery_received_by_choice in delivery_received_by.choices | filter: $select.search">
-				  	<span ng-bind-html="delivery_received_by_choice.display_name | highlight: $select.search"></span>
+			<ui-select ng-model="bought_by_choice.selected" theme="selectize" ng-disabled="disabled">
+				<ui-select-match placeholder="Bought By">{{$select.selected.display_name}}</ui-select-match>
+				<ui-select-choices repeat="bought_by_choice in bought_by | filter: $select.search">
+				  	<span ng-bind-html="bought_by_choice.display_name | highlight: $select.search"></span>
 				</ui-select-choices>
 			</ui-select>
 		</div>
 	</div>
-
 
 	<div class="action-bar">
 		<button ng-click="cancel()" class="waves-effect waves-light btn-flat red">Abbrechen</button>

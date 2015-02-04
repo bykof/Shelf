@@ -9,6 +9,7 @@ from booking.models import Order, OrderCategory, Article, PaymentMethod, \
     Supplier
 from api.serializers import OrderSerializer, OrderCategorySerializer, ArticleSerializer, \
     PaymentMethodSerializer, SupplierSerializer
+from api.metadatas import OrderMetadata
 
 """
 LOGIN LOGOUT VIEWS
@@ -93,6 +94,7 @@ class SupplierDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class OrderList(generics.ListCreateAPIView):
+    metadata_class = OrderMetadata
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     filter_fields = ('order_number', 'purpose')
