@@ -22,8 +22,6 @@ BOOKING SERIALIZERS
 
 
 class OrderCategorySerializer(serializers.ModelSerializer):
-    choices = serializers.ChoiceField([('id', 'name')])
-
     class Meta:
         model = OrderCategory
 
