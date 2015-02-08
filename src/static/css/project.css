@@ -62,16 +62,6 @@
     padding: 10px;
 }
 
-.ui-select-choices-content.selectize-dropdown-content {
-    width: 100%;
-    padding: 5px;
-    border: 1px solid #f2f2f2;
-    border-radius: 2px;
-    height: 300px;
-    overflow: auto;
-    position: relative;
-}
-
 .btn-small {
     height: 24px;
     line-height: 24px;
@@ -99,3 +89,9 @@
 .pad {
     padding: 25px;
 }
+
+select.browser-default {
+    color: black;
+    height: 2em;
+}
+

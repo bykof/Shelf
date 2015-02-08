@@ -1,0 +1,113 @@
+<div id="createNewOrder" ng-controller="newOrderController">
+	<div class="row">
+		<div class="col s1 m1 s1">
+			<a class="btn-floating waves-effect waves-light grey" href="/#/orders">
+				<i class="mdi-navigation-arrow-back"></i>
+			</a>
+		</div>
+		<div class="col s10 m10 l8">
+			<div class="card brown brown">
+				<div class="card-content white-text">
+
+					<span class="card-title">New Order</span>
+					<div class="row">
+						<div class="col s4 right-align">
+							Status:
+						</div>
+						<div class="col s8">
+							<select name="status" class="browser-default">
+								<option ng-repeat="status_choice in status">
+									{{ status_choice.display_name }}
+								</option>
+							</select>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s4 right-align">
+							Article:
+						</div>
+						<div class="col s8">
+
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s4 right-align">
+							Category:
+						</div>
+						<div class="col s8">
+							{{ order.category.name | date : "d.MM.yyyy" }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s4 right-align">
+							Bought by:
+						</div>
+						<div class="col s8">
+							{{ order.bought_by.first_name }} {{ order.bought_by.last_name }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s4 right-align">
+							Bought on:
+						</div>
+						<div class="col s8">
+							{{ order.bought_on | date : "d.MM.yyyy" }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s4 right-align">
+							Purpose:
+						</div>
+						<div class="col s8">
+							{{ order.purpose }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s4 right-align">
+							Order-Number:
+						</div>
+						<div class="col s8">
+							{{ order.order_number }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s4 right-align">
+							Delivery received by:
+						</div>
+						<div class="col s8">
+							{{ order.delivery_received_by }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s4 right-align">
+							Delivery received on:
+						</div>
+						<div class="col s8">
+							{{ order.delivery_received_on | date : "d.MM.yyyy"  }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s4 right-align">
+							Supplier:
+						</div>
+						<div class="col s8">
+							{{ order.supplier.name  }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s4 right-align">
+							Payment method:
+						</div>
+						<div class="col s8">
+							{{ order.payment_method.name  }}
+						</div>
+					</div>
+				</div>
+				<div class="card-action right-align">
+					<a href="/#/orders" class="waves-effect waves-light btn red white-text">Cancel</a>
+					<a href='' class="waves-effect waves-light btn green white-text">Save</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

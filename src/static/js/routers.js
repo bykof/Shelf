@@ -1,6 +1,5 @@
 var shelfModule = angular.module("shelf");
 var static_url = "/static/";
-var is_logged_in_url = "/api/is-logged-in/";
 var booking_static_url = static_url + "booking/";
 
 //https://angularjs.de/artikel/angularjs-login-sicherheit
@@ -23,6 +22,10 @@ shelfModule.config(function($routeProvider) {
             templateUrl: booking_static_url + "order-detail.html",
             controller: "OrderDetailController"
         }).
+        when('/new-order', {
+            templateUrl: booking_static_url + "new-order.html",
+            controller: "newOrderController"
+        }).
         when('/booking', {
             redirectTo: '/orders'
         }).
@@ -31,9 +34,9 @@ shelfModule.config(function($routeProvider) {
         });
 });
 
-shelfModule.run(function ($rootScope, $location, loginService) {
+shelfModule.run(function ($rootScope, $location, Restangular) {
     $rootScope.$on('$routeChangeStart', function (event) {
-        loginService.isLoggedIn().then( function(loggedIn) {
+        Restangular.one("is-logged-in/").get().then( function(loggedIn) {
             if (!loggedIn) {
                 $rootScope.loggedIn = loggedIn;
                 event.preventDefault();
@@ -42,6 +45,5 @@ shelfModule.run(function ($rootScope, $location, loginService) {
                 $rootScope.loggedIn = loggedIn;
             }
         });
-
     });
 });

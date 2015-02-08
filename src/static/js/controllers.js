@@ -10,9 +10,9 @@ shelfModule.controller("HomeController", function($rootScope, $scope) {
     };
 });
 
-shelfModule.controller("navbarController", function($rootScope, $scope, $location, loginService) {
+shelfModule.controller("navbarController", function($rootScope, $scope, $location, Restangular) {
     $scope.logout = function () {
-        loginService.logout().then( function(data) {
+        Restangular.one("logout/").get().then( function(data) {
             if (data == 200) {
                 $rootScope.loggedIn = false;
                 $location.path("/login");
@@ -21,21 +21,18 @@ shelfModule.controller("navbarController", function($rootScope, $scope, $locatio
     }
 });
 
-shelfModule.controller("newOrderController", function($scope, orderService) {
-    orderService.getOptions().then(function(data) {
+shelfModule.controller("newOrderController", function($scope, Restangular) {
+    $('.datepicker').pickadate();
+    Restangular.one("orders/").options().then(function(data) {
         angular.forEach(data.choices, function(value, key) {
             $scope[key] = value;
         });
     });
-
-    $scope.cancel = function() {
-        $('#createNewOrder').closeModal();
-    };
 });
 
-shelfModule.controller("deleteOrderController", function($rootScope, $scope, orderService) {
+shelfModule.controller("deleteOrderController", function($rootScope, $scope, Restangular) {
     $rootScope.$on("deleteOrderOpened", function(event, args) {
-        orderService.getOrder(args["orderId"]).then( function(order) {
+        Restangular.one('orders', args["orderId"]).get().then(function(order) {
             $scope.order = order;
         });
     });
@@ -46,7 +43,7 @@ shelfModule.controller("deleteOrderController", function($rootScope, $scope, ord
     };
 
     $scope.deleteOrder = function(orderId) {
-        orderService.deleteOrder(orderId).then( function () {
+        Restangular.one('orders', orderId).remove().then(function() {
             $('#deleteOrder').closeModal();
             $rootScope.$emit("refreshOrders");
             toast('Bestellung gelöscht!', 4000);
@@ -54,25 +51,21 @@ shelfModule.controller("deleteOrderController", function($rootScope, $scope, ord
     };
 });
 
-shelfModule.controller("OrderDetailController", function($scope, $routeParams, orderService) {
-    orderService.getOrder($routeParams.orderId).then( function(order) {
+shelfModule.controller("OrderDetailController", function($scope, $routeParams, Restangular) {
+    Restangular.one('orders', $routeParams.orderId).get().then(function(order) {
         $scope.order = order;
     });
 });
 
-shelfModule.controller("OrderListController", function($rootScope, $scope, $location, orderService) {
+shelfModule.controller("OrderListController", function($rootScope, $scope, Restangular) {
     $rootScope.$emit("refreshOrders");
     $rootScope.$on("refreshOrders", function() {
         $scope.order_template = "/static/booking/progress.html";
-        orderService.getOrders().then( function(orders) {
+        Restangular.all('orders/').getList().then( function(orders) {
             $scope.orders = orders;
             $scope.order_template = "/static/booking/order-table.html";
         });
     });
-
-    $scope.createNewOrder = function() {
-       $('#createNewOrder').openModal();
-    };
 
     $scope.deleteOrder = function(orderId) {
         $('#deleteOrder').openModal();
@@ -81,16 +74,18 @@ shelfModule.controller("OrderListController", function($rootScope, $scope, $loca
     }
 });
 
-shelfModule.controller("LoginController", function($rootScope, $scope, $location, loginService) {
+shelfModule.controller("LoginController", function($rootScope, $scope, $location, Restangular) {
         $scope.login = function() {
-            loginService.login($scope.loginModel).then(function(data) {
+            Restangular.one("login/").post("", $scope.loginModel).then( function(data) {
+                console.log(data);
                 if (data == 200) {
                     $rootScope.loggedIn = true;
                     $location.path("/");
                 } else if (data == 401) {
-                    $scope.errorMessage = "Dont have the permission";
+
+                    toast('You don\'t have enough permission to login', 4000)
                 } else if (data == 403) {
-                    $scope.errorMessage = "The credentials were not right. Please try again";
+                    toast('The credentials were not right, please try again!', 4000)
                 }
             });
         }
