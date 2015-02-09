@@ -21,13 +21,23 @@ shelfModule.controller("navbarController", function($rootScope, $scope, $locatio
     }
 });
 
-shelfModule.controller("newOrderController", function($scope, Restangular) {
-    $('.datepicker').pickadate();
+shelfModule.controller("newOrderController", function($scope, $location, Restangular) {
     Restangular.one("orders/").options().then(function(data) {
         angular.forEach(data.choices, function(value, key) {
             $scope[key] = value;
         });
+        $("select").select2();
     });
+
+    $scope.save = function() {
+        Restangular.one("orders/").post("", $scope.formModel).then( function(data) {
+            $location.path("/orders");
+        }, function(error_data) {
+            angular.forEach(error_data.data, function(value, key) {
+                toast(key + ": " + value, 4000);
+            });
+        });
+    };
 });
 
 shelfModule.controller("deleteOrderController", function($rootScope, $scope, Restangular) {
@@ -61,7 +71,7 @@ shelfModule.controller("OrderListController", function($rootScope, $scope, Resta
     $rootScope.$emit("refreshOrders");
     $rootScope.$on("refreshOrders", function() {
         $scope.order_template = "/static/booking/progress.html";
-        Restangular.all('orders/').getList().then( function(orders) {
+        Restangular.all('orders-collapsed/').getList().then( function(orders) {
             $scope.orders = orders;
             $scope.order_template = "/static/booking/order-table.html";
         });

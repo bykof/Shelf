@@ -73,6 +73,26 @@
     margin: 0 2px;
 }
 
+.select2-arrow {
+    width: 24px;
+}
+
+.select2-container .select2-choice {
+    border: 0;
+}
+
+.select2-drop {
+    border-radius: 0;
+}
+
+a.select2-choice:hover {
+    color: #000;
+}
+
+.select2-drop-active {
+    border: 0;
+}
+
 .pagination-button.active {
     color: white;
 }

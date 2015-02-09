@@ -15,8 +15,9 @@
 							Status:
 						</div>
 						<div class="col s8">
-							<select name="status" class="browser-default">
-								<option ng-repeat="status_choice in status">
+							<select ng-model="formModel.status" name="status" class="browser-default">
+								<option style="display:none" value="">Select the current status</option>
+								<option value="{{ status_choice.id }}" ng-repeat="status_choice in status">
 									{{ status_choice.display_name }}
 								</option>
 							</select>
@@ -27,7 +28,12 @@
 							Article:
 						</div>
 						<div class="col s8">
-
+							<select ng-model="formModel.article" class="browser-default">
+								<option style="display:none" value="">Select a article</option>
+								<option value="{{ article_choice.id }}" ng-repeat="article_choice in article">
+									{{ article_choice.display_name }}
+								</option>
+							</select>
 						</div>
 					</div>
 					<div class="row">
@@ -35,7 +41,10 @@
 							Category:
 						</div>
 						<div class="col s8">
-							{{ order.category.name | date : "d.MM.yyyy" }}
+							<select ng-model="formModel.category" class="browser-default">
+								<option style="display:none" value="">Select a category</option>
+								<option value="{{ category_choice.id }}" ng-repeat="category_choice in category">{{ category_choice.display_name }}</option>
+							</select>
 						</div>
 					</div>
 					<div class="row">
@@ -43,7 +52,12 @@
 							Bought by:
 						</div>
 						<div class="col s8">
-							{{ order.bought_by.first_name }} {{ order.bought_by.last_name }}
+							<select ng-model="formModel.bought_by" class="browser-default">
+								<option style="display:none" value="">Select an employee who has bought the order</option>
+								<option value="{{ bought_by_choice.id }}" ng-repeat="bought_by_choice in bought_by">
+									{{ bought_by_choice.display_name }}
+								</option>
+							</select>
 						</div>
 					</div>
 					<div class="row">
@@ -51,7 +65,7 @@
 							Bought on:
 						</div>
 						<div class="col s8">
-							{{ order.bought_on | date : "d.MM.yyyy" }}
+							<input type="text" style="height: 2rem;">
 						</div>
 					</div>
 					<div class="row">
@@ -59,7 +73,7 @@
 							Purpose:
 						</div>
 						<div class="col s8">
-							{{ order.purpose }}
+							<input type="text" ng-model="formModel.purpose" style="height: 2rem;">
 						</div>
 					</div>
 					<div class="row">
@@ -67,7 +81,7 @@
 							Order-Number:
 						</div>
 						<div class="col s8">
-							{{ order.order_number }}
+							<input type="text" ng-model="formModel.order_number" style="height: 2rem;">
 						</div>
 					</div>
 					<div class="row">
@@ -75,7 +89,12 @@
 							Delivery received by:
 						</div>
 						<div class="col s8">
-							{{ order.delivery_received_by }}
+							<select ng-model="formModel.delivery_received_by" class="browser-default">
+								<option style="display:none" value="">Select an employee who has received the delivery (optional)</option>
+								<option value="{{ delivery_received_by_choice.id }}" ng-repeat="delivery_received_by_choice in delivery_received_by">
+									{{ delivery_received_by_choice.display_name }}
+								</option>
+							</select>
 						</div>
 					</div>
 					<div class="row">
@@ -83,7 +102,7 @@
 							Delivery received on:
 						</div>
 						<div class="col s8">
-							{{ order.delivery_received_on | date : "d.MM.yyyy"  }}
+							<input type="text" style="height: 2rem;">
 						</div>
 					</div>
 					<div class="row">
@@ -91,21 +110,31 @@
 							Supplier:
 						</div>
 						<div class="col s8">
-							{{ order.supplier.name  }}
+							<select ng-model="formModel.supplier" class="browser-default">
+								<option style="display:none" value="">Select a supplier</option>
+								<option value="{{ supplier_choice.id }}" ng-repeat="supplier_choice in supplier">
+									{{ supplier_choice.display_name }}
+								</option>
+							</select>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col s4 right-align">
+					<div class="row valign-wrapper">
+						<div class="col s4 right-align valign">
 							Payment method:
 						</div>
 						<div class="col s8">
-							{{ order.payment_method.name  }}
+							<select ng-model="formModel.payment_method" class="browser-default valign">
+								<option style="display:none" value="">Select a payment method</option>
+								<option value="{{ payment_method_choice.id }}" ng-repeat="payment_method_choice in payment_method">
+									{{ payment_method_choice.display_name }}
+								</option>
+							</select>
 						</div>
 					</div>
 				</div>
 				<div class="card-action right-align">
 					<a href="/#/orders" class="waves-effect waves-light btn red white-text">Cancel</a>
-					<a href='' class="waves-effect waves-light btn green white-text">Save</a>
+					<a href='' ng-click="save()" class="waves-effect waves-light btn green white-text">Save</a>
 				</div>
 			</div>
 		</div>

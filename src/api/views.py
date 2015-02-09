@@ -8,7 +8,7 @@ from rest_framework.decorators import api_view, permission_classes
 from booking.models import Order, OrderCategory, Article, PaymentMethod, \
     Supplier
 from api.serializers import OrderSerializer, OrderCategorySerializer, ArticleSerializer, \
-    PaymentMethodSerializer, SupplierSerializer
+    PaymentMethodSerializer, SupplierSerializer, OrderCollapsedSerializer
 from api.metadatas import OrderMetadata
 
 """
@@ -97,12 +97,16 @@ class OrderList(generics.ListCreateAPIView):
     metadata_class = OrderMetadata
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
-    filter_fields = ('order_number', 'purpose')
+
+
+class OrderListCollapsed(generics.ListAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderCollapsedSerializer
 
 
 class OrderDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Order.objects.all()
-    serializer_class = OrderSerializer
+    serializer_class = OrderCollapsedSerializer
 
 
 

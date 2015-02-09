@@ -42,6 +42,11 @@ class SupplierSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+
+
+class OrderCollapsedSerializer(serializers.ModelSerializer):
     article = ArticleSerializer()
     bought_by = UserSerializer()
     category = OrderCategorySerializer()

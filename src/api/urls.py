@@ -25,6 +25,7 @@ urlpatterns = patterns(
     url(r'^suppliers/(?P<pk>[0-9]+)$', views.SupplierDetail.as_view(), name='supplier_detail'),
 
     url(r'^orders/$', views.OrderList.as_view(), name='order_list'),
+    url(r'^orders-collapsed/$', views.OrderListCollapsed.as_view(), name='order_list_collapsed'),
     url(r'^orders/(?P<pk>[0-9]+)$', views.OrderDetail.as_view(), name='order_detail'),
 
 )
