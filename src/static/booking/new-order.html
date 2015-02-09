@@ -27,13 +27,18 @@
 						<div class="col s4 right-align">
 							Article:
 						</div>
-						<div class="col s8">
+						<div class="col s7">
 							<select ng-model="formModel.article" class="browser-default">
 								<option style="display:none" value="">Select a article</option>
 								<option value="{{ article_choice.id }}" ng-repeat="article_choice in article">
 									{{ article_choice.display_name }}
 								</option>
 							</select>
+						</div>
+						<div class="col s1">
+							<a class="waves-effect waves-light btn-floating grey white-text">
+								<i class="mdi-content-add"></i>
+							</a>
 						</div>
 					</div>
 					<div class="row">
@@ -90,7 +95,7 @@
 						</div>
 						<div class="col s8">
 							<select ng-model="formModel.delivery_received_by" class="browser-default">
-								<option style="display:none" value="">Select an employee who has received the delivery (optional)</option>
+								<option value="">Select an employee who has received the delivery (optional)</option>
 								<option value="{{ delivery_received_by_choice.id }}" ng-repeat="delivery_received_by_choice in delivery_received_by">
 									{{ delivery_received_by_choice.display_name }}
 								</option>

@@ -22,11 +22,16 @@ shelfModule.controller("navbarController", function($rootScope, $scope, $locatio
 });
 
 shelfModule.controller("newOrderController", function($scope, $location, Restangular) {
+    $("select").select2({
+        tags: true
+    });
     Restangular.one("orders/").options().then(function(data) {
         angular.forEach(data.choices, function(value, key) {
             $scope[key] = value;
         });
-        $("select").select2();
+        $("select").select2({
+            tags: true
+        });
     });
 
     $scope.save = function() {

@@ -73,6 +73,14 @@
     margin: 0 2px;
 }
 
+#pagination-div {
+    margin: 30px 0;
+}
+
+#pagination-div a {
+    margin: 0 2px;
+}
+
 .select2-arrow {
     width: 24px;
 }

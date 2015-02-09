@@ -19,9 +19,9 @@
 			<td>{{ order.id }}</td>
 			<td>{{ order.article.name }}</td>
 			<td>{{ order.bought_by.first_name }} {{ order.bought_by.last_name }}</td>
-			<td>{{ order.bought_on | date : "d.MM.yyyy" }}</td>
+			<td>{{ order.bought_on | date : "dd.MM.yyyy" }}</td>
 			<td>{{ order.category.name }}</td>
-			<td>{{ order.created | date : "d.MM.yyyy" }}</td>
+			<td>{{ order.created | date : "dd.MM.yyyy" }}</td>
 			<td>{{ order.order_number }}</td>
 			<td>{{ order.purpose }}</td>
 			<td>{{ order.status }}</td>
