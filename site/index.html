@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<html ng-app="shelfModule">
+	<head lang="en">
+		<meta charset="UTF-8">
+		<title>Shelf</title>
+
+		<base href="/">
+
+		<link href="css/libs/semantic.min.css" rel="stylesheet">
+		<link href="css/custom.css" rel="stylesheet">
+
+		<script src="js/libs/jquery.min.js"></script>
+		<script src="js/libs/semantic.min.js"></script>
+		<script src="js/libs/angular.min.js"></script>
+		<script src="js/libs/angular-route.min.js"></script>
+
+		<script src="js/angular/app.js"></script>
+		<script src="js/angular/controller.js"></script>
+		<script src="js/angular/routers.js"></script>
+	</head>
+	<body ng-controller="BodyController">
+		<div class="ui page grid">
+			<div class="sixteen wide column">
+				<div class="ui menu">
+					<a class="item" ng-class="menuClass('')" href="/">
+						<i class="home icon"></i> Shelf
+					</a>
+					<a class="item" ng-class="menuClass('orders')" href="orders">
+						<i class="barcode icon"></i> Orders
+					</a>
+					<a class="item" ng-class="menuClass('invoices')" href="invoices">
+						<i class="file outline icon"></i> Invoices
+					</a>
+					<a class="item" ng-class="menuClass('articles')" href="articles">
+						<i class="laptop icon"></i> Articles
+					</a>
+					<div class="right menu">
+						<div class="item">
+							<div class="ui transparent icon input">
+								<input type="text" placeholder="Search...">
+								<i class="search link icon"></i>
+							</div>
+						</div>
+						<div class="ui pointing dropdown link item">
+							<i class="dropdown icon"></i>
+							<span class="text"><i class="settings icon"></i></span>
+							<div class="menu">
+								<a class="item">Login</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="ui segment">
+					<ng-view></ng-view>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			$(".ui .dropdown").dropdown();
+		</script>
+	</body>
+</html>
