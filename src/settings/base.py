@@ -43,6 +43,7 @@ DJANGO_APPS = (
 THIRD_PARTY_APPS = (
     'ldap_sync',  # ldap sync
     'taggit',  # django create easy tags
+    'taggit_serializer',  # taggit serializer for rest framework
     'rest_framework',  # rest framework for angular
 )
 

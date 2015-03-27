@@ -29,6 +29,14 @@ class SupplierViewSet(ModelViewSet):
 class OrderViewSet(ModelViewSet):
     queryset = Order.objects.all()
 
+    def create(self, request, *args, **kwargs):
+        Order.objects.get(pk=kwargs['pk']).tags.clear()
+        return super(OrderViewSet, self).create(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        Order.objects.get(pk=kwargs['pk']).tags.clear()
+        return super(OrderViewSet, self).update(request, *args, **kwargs)
+
     def get_serializer_class(self):
         if self.request.method == 'GET':
             return ReadOrderSerializer
