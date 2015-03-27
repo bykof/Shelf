@@ -26,6 +26,22 @@ module.controller("BodyController", function($rootScope, $scope, $location, Rest
     };
 
     if (!$.cookie("djangocookie")) {
+        initLoginForm();
+    } else {
+        $("#page-content").show();
+        $("#login-form-container").hide();
+        Restangular.setDefaultHeaders({"Authorization": "Token " + $.cookie("djangocookie")});
+        $rootScope.$broadcast("authorized");
+    }
+
+    $scope.logout = function() {
+        $.removeCookie("djangocookie");
+        Restangular.setDefaultHeaders({});
+        $("[name='password']").val("");
+        initLoginForm();
+    };
+
+    function initLoginForm() {
         $("#page-content").hide();
         $("#login-form-container").show();
 
@@ -38,10 +54,7 @@ module.controller("BodyController", function($rootScope, $scope, $location, Rest
         $(".submit").click( function() {
             $scope.login();
         });
-    } else {
-        $("#page-content").show();
-        $("#login-form-container").hide();
-        Restangular.setDefaultHeaders({"Authorization": "Token " + $.cookie("djangocookie")});
-        $rootScope.$broadcast("authorized");
     }
+
+    $('.dropdown').dropdown();
 });
