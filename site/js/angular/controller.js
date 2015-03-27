@@ -1,6 +1,6 @@
 var module = angular.module("shelfModule");
 
-module.controller("BodyController", function($rootScope, $scope, $location, Restangular) {
+module.controller("BodyController", function($scope, $location, Restangular, $route) {
     $scope.menuClass = function(page) {
         var current = $location.path().substring(1);
         return page === current ? "active" : "";
@@ -15,10 +15,11 @@ module.controller("BodyController", function($rootScope, $scope, $location, Rest
                 .then( function (response) {
                     var token = response.token;
                     $.cookie("djangocookie", token, { expires: 1, path: '/'});
-
+                    Restangular.setDefaultHeaders({"Authorization": "Token " + token});
+                    $("[name='password']").val("");
                     $("#login-form-container").hide();
                     $("#page-content").show();
-                    $rootScope.$broadcast('authorized');
+                    $route.reload();
                 }, function(response) {
                     console.log("Error");
                 });
@@ -31,13 +32,11 @@ module.controller("BodyController", function($rootScope, $scope, $location, Rest
         $("#page-content").show();
         $("#login-form-container").hide();
         Restangular.setDefaultHeaders({"Authorization": "Token " + $.cookie("djangocookie")});
-        $rootScope.$broadcast("authorized");
     }
 
     $scope.logout = function() {
         $.removeCookie("djangocookie");
         Restangular.setDefaultHeaders({});
-        $("[name='password']").val("");
         initLoginForm();
     };
 

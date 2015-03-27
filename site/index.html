@@ -18,9 +18,13 @@
         <script src="js/libs/lodash.min.js"></script>
         <script src="js/libs/restangular.min.js"></script>
 
+        <!-- MAIN APP -->
 		<script src="js/angular/app.js"></script>
 		<script src="js/angular/controller.js"></script>
 		<script src="js/angular/routers.js"></script>
+
+        <!-- ORDERS -->
+        <script src="js/angular/orders/controller.js"></script>
 	</head>
 	<body ng-controller="BodyController">
         <div class="ui page grid" id="login-form-container">
@@ -73,9 +77,7 @@
                         </div>
 					</div>
 				</div>
-				<div class="ui segment">
-					<ng-view></ng-view>
-				</div>
+				<ng-view></ng-view>
 			</div>
 		</div>
 
