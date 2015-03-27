@@ -1,4 +1,7 @@
+from django.conf.urls import url
+
 from rest_framework.routers import DefaultRouter
+from rest_framework.authtoken import views
 
 from .views import OrderCategoryViewSet, ArticleViewSet, PaymentMethodViewSet, SupplierViewSet, OrderViewSet
 
@@ -10,3 +13,6 @@ router.register(r'suppliers', SupplierViewSet)
 router.register(r'orders', OrderViewSet)
 
 urlpatterns = router.urls
+urlpatterns += [
+    url(r'^api-token-auth/', views.obtain_auth_token)
+]

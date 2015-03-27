@@ -29,6 +29,9 @@ class SupplierViewSet(ModelViewSet):
 class OrderViewSet(ModelViewSet):
     queryset = Order.objects.all()
 
+    def list(self, request, *args, **kwargs):
+        return super(OrderViewSet, self).list(request, *args, **kwargs)
+
     def create(self, request, *args, **kwargs):
         Order.objects.get(pk=kwargs['pk']).tags.clear()
         return super(OrderViewSet, self).create(request, *args, **kwargs)

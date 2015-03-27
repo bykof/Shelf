@@ -45,6 +45,8 @@ THIRD_PARTY_APPS = (
     'taggit',  # django create easy tags
     'taggit_serializer',  # taggit serializer for rest framework
     'rest_framework',  # rest framework for angular
+    'rest_framework.authtoken',  # managing the authtoken for client application
+    'corsheaders',  # cors headers middleware
 )
 
 LOCAL_APPS = (
@@ -108,6 +110,10 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
     'DEFAULT_FILTER_BACKENDS': (
         'rest_framework.filters.DjangoFilterBackend',
     )
@@ -115,6 +121,7 @@ REST_FRAMEWORK = {
 #  END REST FRAMEWORK CONFIGURATION
 
 MIDDLEWARE_CLASSES = (
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -125,6 +132,9 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'urls'
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 
 WSGI_APPLICATION = 'wsgi.application'
 
