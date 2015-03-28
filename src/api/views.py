@@ -29,7 +29,7 @@ class SupplierViewSet(ModelViewSet):
 
 class OrderViewSet(ModelViewSet):
     queryset = Order.objects.all()
-    paginate_by = 25
+    paginate_by = 10
     filter_backends = (SearchFilter,)
     search_fields = (
         'bought_by__first_name',

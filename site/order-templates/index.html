@@ -21,7 +21,8 @@
                     <div class="ui form">
                         <div class="ui icon input">
                             <input type="text" placeholder="Search orders..." ng-model="orderSearch">
-                            <i class="search icon"></i>
+                            <i class="search icon" id="search-delete-icon" style="cursor: pointer"
+                               ng-click="orderSearch = ''"></i>
                         </div>
                     </div>
                 </div>
@@ -31,7 +32,7 @@
     <div class="ui segment">
         <div class="ui grid">
             <div class="row">
-                <div class="sixteen wide column" style="min-height: 500px;">
+                <div class="sixteen wide column" style="min-height: 300px;">
                     <table class="ui table">
                         <thead>
                         <tr>
@@ -41,12 +42,13 @@
                             <th>Category</th>
                             <th>Supplier</th>
                             <th>Tags</th>
+                            <th>Purpose</th>
                             <th>Received on</th>
                             <th>Received by</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr dir-paginate="order in orders | itemsPerPage: 25" total-items="totalOrders">
+                        <tr dir-paginate="order in orders | itemsPerPage: 10" total-items="totalOrders">
                             <td>{{ order.id }}</td>
                             <td>{{ order.bought_on | date : 'dd.MM.yyyy' }}</td>
                             <td>{{ order.bought_by.first_name }} {{ order.bought_by.last_name }}</td>
@@ -54,6 +56,9 @@
                             <td>{{ order.supplier.name }}</td>
                             <td>
                                 <a ng-repeat="tag in order.tags" class="ui horizontal label small">{{ tag }}</a>
+                            </td>
+                            <td>
+                                {{ order.purpose }}
                             </td>
                             <td>
                                 <div ng-if="order.delivery_received_on">
