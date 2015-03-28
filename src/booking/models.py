@@ -90,5 +90,10 @@ class Order(BookingModel):
         verbose_name = _('Order')
         verbose_name_plural = _('Orders')
 
+
+    @property
+    def get_tags(self, *args, **kwargs):
+        return self.tags.filter(*args, **kwargs)
+
     def __unicode__(self):
         return _(u'Article {} bought on {}'.format(self.article, self.bought_on))

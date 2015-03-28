@@ -1,4 +1,5 @@
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.filters import SearchFilter
 
 from booking.models import OrderCategory, Article, PaymentMethod, Supplier, Order
 
@@ -28,9 +29,23 @@ class SupplierViewSet(ModelViewSet):
 
 class OrderViewSet(ModelViewSet):
     queryset = Order.objects.all()
-
-    def list(self, request, *args, **kwargs):
-        return super(OrderViewSet, self).list(request, *args, **kwargs)
+    paginate_by = 25
+    filter_backends = (SearchFilter,)
+    search_fields = (
+        'bought_by__first_name',
+        'bought_by__last_name',
+        'bought_by__email',
+        'delivery_received_by__first_name',
+        'delivery_received_by__last_name',
+        'delivery_received_by__email',
+        'category__name',
+        'article__name',
+        'supplier__name',
+        'payment_method__name',
+        'payment_method__description',
+        'order_number',
+        'purpose',
+    )
 
     def create(self, request, *args, **kwargs):
         Order.objects.get(pk=kwargs['pk']).tags.clear()

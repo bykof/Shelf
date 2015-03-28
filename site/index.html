@@ -17,11 +17,13 @@
 		<script src="js/libs/angular-route.min.js"></script>
         <script src="js/libs/lodash.min.js"></script>
         <script src="js/libs/restangular.min.js"></script>
+        <script src="js/libs/dirPagination.js"></script>
 
         <!-- MAIN APP -->
 		<script src="js/angular/app.js"></script>
 		<script src="js/angular/controller.js"></script>
 		<script src="js/angular/routers.js"></script>
+        <script src="js/angular/services.js"></script>
 
         <!-- ORDERS -->
         <script src="js/angular/orders/controller.js"></script>
@@ -49,9 +51,9 @@
 		<div class="ui page grid" id="page-content">
 			<div class="sixteen wide column">
 				<div class="ui menu">
-					<a class="item" ng-class="menuClass('')" href="/">
-						<i class="home icon"></i> Shelf
-					</a>
+                    <a class="item" ng-class="menuClass('')" href="/">
+                        <i class="home icon"></i> Shelf
+                    </a>
 					<a class="item" ng-class="menuClass('orders')" href="orders">
 						<i class="barcode icon"></i> Orders
 					</a>
