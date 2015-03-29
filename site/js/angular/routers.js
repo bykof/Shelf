@@ -6,14 +6,22 @@ module.config(['$routeProvider', '$locationProvider',
             .when('/', {
                 templateUrl: 'templates/home.html'
             })
+            // ORDERS
             .when('/orders', {
-                templateUrl: 'order-templates/index.html'
+                redirectTo: '/orders/list'
+            })
+            .when('/orders/list', {
+                templateUrl: 'order-templates/list.html'
+            })
+            .when('/orders/create', {
+                templateUrl: 'order-templates/create.html',
+                controller: "CreateOrderController"
             })
             .when('/invoices', {
-                templateUrl: 'invoice-templates/index.html'
+                templateUrl: 'invoice-templates/list.html'
             })
             .when('/articles', {
-                templateUrl: 'article-templates/index.html'
+                templateUrl: 'article-templates/list.html'
             }).otherwise( {
                 redirectTo: '/'
             });

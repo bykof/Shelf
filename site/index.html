@@ -8,10 +8,12 @@
 		<base href="http://127.0.0.1:80/">
 
 		<link href="css/libs/semantic.min.css" rel="stylesheet">
+        <link href="css/libs/jquery.datetimepicker.css" rel="stylesheet">
 		<link href="css/custom.css" rel="stylesheet">
 
 		<script src="js/libs/jquery.min.js"></script>
         <script src="js/libs/jquery.cookie.js"></script>
+        <script src="js/libs/jquery.datetimepicker.js"></script>
 		<script src="js/libs/semantic.min.js"></script>
 		<script src="js/libs/angular.min.js"></script>
 		<script src="js/libs/angular-route.min.js"></script>
@@ -31,21 +33,23 @@
 	<body ng-controller="BodyController">
         <div class="ui page grid" id="login-form-container">
             <div class="four wide centered column">
-                <form class="ui form" id="login-form">
-                    <div class="field">
-                        <label>Username</label>
+                <div class="ui segment" style="margin-top: 30px;">
+                    <form class="ui form" id="login-form">
                         <div class="field">
-                            <input ng-model="loginModel.username" type="text" name="username" placeholder="Username">
+                            <label>Username</label>
+                            <div class="field">
+                                <input ng-model="loginModel.username" type="text" name="username" placeholder="Username">
+                            </div>
                         </div>
-                    </div>
-                    <div class="field">
-                        <label>Password</label>
                         <div class="field">
-                            <input ng-model="loginModel.password" type="password" name="password" placeholder="Password">
+                            <label>Password</label>
+                            <div class="field">
+                                <input ng-model="loginModel.password" type="password" name="password" placeholder="Password">
+                            </div>
                         </div>
-                    </div>
-                    <div class="ui submit button">Login</div>
-                </form>
+                        <div class="ui submit button">Login</div>
+                    </form>
+                </div>
             </div>
         </div>
 		<div class="ui page grid" id="page-content">

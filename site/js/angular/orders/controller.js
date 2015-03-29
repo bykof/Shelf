@@ -57,3 +57,30 @@ module.controller("OrderListController", function($rootScope, $scope, $timeout, 
 
     };
 });
+
+module.controller("CreateOrderController", function($scope, Restangular) {
+    $scope.$on('$viewContentLoaded', function(){
+        $('#datetimepicker1').datetimepicker({
+            lang:'de',
+            i18n:{
+                de:{
+                    months:[
+                        'Januar','Februar','März','April',
+                        'Mai','Juni','Juli','August',
+                        'September','Oktober','November','Dezember',
+                    ],
+                    dayOfWeek:[
+                        "So.", "Mo", "Di", "Mi",
+                        "Do", "Fr", "Sa.",
+                    ]
+                }
+            },
+            timepicker:false,
+            format:'d.m.Y'
+        });
+
+        $('select.dropdown')    .dropdown();
+    });
+
+    $scope.currentDate = new Date();
+});
