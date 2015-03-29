@@ -60,7 +60,7 @@ module.controller("OrderListController", function($rootScope, $scope, $timeout, 
 
 module.controller("CreateOrderController", function($scope, Restangular) {
     $scope.$on('$viewContentLoaded', function(){
-        $('#datetimepicker1').datetimepicker({
+        $('.datetimepicker').datetimepicker({
             lang:'de',
             i18n:{
                 de:{
@@ -71,7 +71,7 @@ module.controller("CreateOrderController", function($scope, Restangular) {
                     ],
                     dayOfWeek:[
                         "So.", "Mo", "Di", "Mi",
-                        "Do", "Fr", "Sa.",
+                        "Do", "Fr", "Sa."
                     ]
                 }
             },
@@ -79,7 +79,7 @@ module.controller("CreateOrderController", function($scope, Restangular) {
             format:'d.m.Y'
         });
 
-        $('select.dropdown')    .dropdown();
+        $('select.dropdown').dropdown();
     });
 
     $scope.currentDate = new Date();
