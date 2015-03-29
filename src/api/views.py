@@ -60,10 +60,6 @@ class OrderViewSet(ModelViewSet):
         'purpose',
     )
 
-    def create(self, request, *args, **kwargs):
-        Order.objects.get(pk=kwargs['pk']).tags.clear()
-        return super(OrderViewSet, self).create(request, *args, **kwargs)
-
     def update(self, request, *args, **kwargs):
         Order.objects.get(pk=kwargs['pk']).tags.clear()
         return super(OrderViewSet, self).update(request, *args, **kwargs)
