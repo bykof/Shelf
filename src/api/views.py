@@ -1,10 +1,23 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import SearchFilter
 
+from users.models import User
 from booking.models import OrderCategory, Article, PaymentMethod, Supplier, Order
 
 from .serializers import OrderCategorySerializer, ArticleSerializer, PaymentMethodSerializer, SupplierSerializer
-from .serializers import OrderSerializer, ReadOrderSerializer
+from .serializers import OrderSerializer, ReadOrderSerializer, UserSerializer
+
+
+class UserViewSet(ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    filter_backends = (SearchFilter,)
+    search_fields = (
+        'username',
+        'first_name',
+        'last_name',
+        'email',
+    )
 
 
 class OrderCategoryViewSet(ModelViewSet):
