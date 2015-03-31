@@ -103,7 +103,7 @@ module.controller("CreateOrderController", function($scope, Restangular) {
 
         console.log(newOrder);
         Restangular.one("orders").post('', newOrder).then( function(response) {
-            
+
         }, function(response) {
 
         });

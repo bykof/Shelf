@@ -28,8 +28,21 @@
                                 <input ng-model="newOrder.purpose" type="text" placeholder="Purpose">
                             </div>
                             <div class="field">
-                                <label>Tags</label>
-                                <input ng-model="newOrder.tags" type="text">
+                                <label>Article</label>
+                                <div class="fields">
+                                    <div class="twelve wide field">
+                                        <select ng-model="newOrder.article" class="ui dropdown search">
+                                            <option value=""></option>
+                                            <option value="{{ article.value }}"
+                                                    ng-repeat="article in postActions.article.choices">
+                                                {{ article.display_name }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="four wide field right-align">
+                                        <div class="ui button"><i class="plus icon"></i> Create</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="two fields">
@@ -91,21 +104,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="two fields">
-                            <label>Article</label>
-                            <div class="fields">
-                                <div class="twelve wide field">
-                                    <select ng-model="newOrder.article" class="ui dropdown search">
-                                        <option value=""></option>
-                                        <option value="{{ article.value }}"
-                                                ng-repeat="article in postActions.article.choices">
-                                            {{ article.display_name }}
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="four wide field right-align">
-                                    <div class="ui button"><i class="plus icon"></i> Create</div>
-                                </div>
+                        <div class="field">
+                            <label>Tags</label>
+                            <div class="eight wide field">
+                                <input ng-model="newOrder.tags" type="text">
                             </div>
                         </div>
                         <div class="ui accordion">

@@ -41,7 +41,7 @@ class SupplierViewSet(ModelViewSet):
 
 
 class OrderViewSet(ModelViewSet):
-    queryset = Order.objects.all()
+    queryset = Order.objects.all().order_by('-id')
     paginate_by = 10
     filter_backends = (SearchFilter,)
     search_fields = (
