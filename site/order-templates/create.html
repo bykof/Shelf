@@ -8,79 +8,136 @@
                             <div class="field">
                                 <label>Bought on</label>
                                 <div class="field">
-                                    <input class="datetimepicker" type="text" value="{{ currentDate | date : 'dd.MM.yyyy' }}">
+                                    <input ng-model="newOrder.bought_on" class="datetimepicker" type="text">
                                 </div>
                             </div>
                             <div class="field">
                                 <label>Bought By</label>
-                                <select class="ui search dropdown">
-                                    <option value="mbykovski">Michael Bykovski</option>
+                                <select ng-model="newOrder.bought_by" class="ui search dropdown">
+                                    <option value=""></option>
+                                    <option value="{{ bought_by.value }}"
+                                            ng-repeat="bought_by in postActions.bought_by.choices">
+                                        {{ bought_by.display_name }}
+                                    </option>
                                 </select>
                             </div>
                         </div>
                         <div class="two fields">
                             <div class="field">
                                 <label>Purpose</label>
-                                <input type="text" placeholder="Purpose">
+                                <input ng-model="newOrder.purpose" type="text" placeholder="Purpose">
                             </div>
                             <div class="field">
                                 <label>Tags</label>
-                                <input type="text">
+                                <input ng-model="newOrder.tags" type="text">
                             </div>
                         </div>
                         <div class="two fields">
                             <div class="field">
                                 <label>Category</label>
-                                <select class="ui dropdown">
-                                    <option value="">irgendwas</option>
-                                </select>
+                                <div class="fields">
+                                    <div class="twelve wide field">
+                                        <select ng-model="newOrder.category" class="ui dropdown">
+                                            <option value=""></option>
+                                            <option value="{{ category.value }}" ng-repeat="category in postActions.category.choices">
+                                                {{ category.display_name }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="four wide field right-align">
+                                        <div class="ui button"><i class="plus icon"></i> Create</div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="field">
                                 <label>Supplier</label>
-                                <select class="ui dropdown">
-                                    <option value="">irgendwas</option>
-                                </select>
+                                <div class="fields">
+                                    <div class="twelve wide field">
+                                        <select ng-model="newOrder.supplier" class="ui dropdown">
+                                            <option value=""></option>
+                                            <option value="{{ supplier.value }}" ng-repeat="supplier in postActions.supplier.choices">
+                                                {{ supplier.display_name }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="four wide field right-align">
+                                        <div class="ui button"><i class="plus icon"></i> Create</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="two fields">
                             <div class="field">
                                 <label>Order Number</label>
                                 <div class="field">
-                                    <input type="text" placeholder="Order Number">
+                                    <input ng-model="newOrder.order_number" type="text" placeholder="Order Number">
                                 </div>
                             </div>
                             <div class="field">
                                 <label>Payment Method</label>
-                                <select class="ui dropdown">
-                                    <option value="">irgendwas</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="two fields">
-                            <div class="field">
-                                <label>Delivery Received On</label>
-                                <div class="field">
-                                    <input class="datetimepicker" type="text" placeholder="optional">
+                                <div class="fields">
+                                    <div class="twelve wide field">
+                                        <select ng-model="newOrder.payment_method" class="ui dropdown">
+                                            <option value=""></option>
+                                            <option value="{{ payment_method.value }}"
+                                                    ng-repeat="payment_method in postActions.payment_method.choices">
+                                                {{ payment_method.display_name }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="four wide field right-align">
+                                        <div class="ui button"><i class="plus icon"></i> Create</div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="field">
-                                <label>Delivery Received By</label>
-                                <select class="ui search dropdown">
-                                    <option value="">optional</option>
-                                    <option value="mbykovski">Michael Bykovski</option>
-                                </select>
-                            </div>
                         </div>
                         <div class="two fields">
-                            <div class="field">
-                                <label>Status</label>
-                                <select class="ui dropdown">
-                                    <option value="ORDERED">Ordered</option>
-                                </select>
+                            <label>Article</label>
+                            <div class="fields">
+                                <div class="twelve wide field">
+                                    <select ng-model="newOrder.article" class="ui dropdown search">
+                                        <option value=""></option>
+                                        <option value="{{ article.value }}"
+                                                ng-repeat="article in postActions.article.choices">
+                                            {{ article.display_name }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="four wide field right-align">
+                                    <div class="ui button"><i class="plus icon"></i> Create</div>
+                                </div>
                             </div>
-                            <div class="field">
-                                <label>Invoice PDF</label>
-                                <input type="file" multiple>
+                        </div>
+                        <div class="ui accordion">
+                            <div class="title">
+                                <i class="dropdown icon"></i>
+                                <i class="edit icon"></i> Optional Fields
+                            </div>
+                            <div class="content">
+                                <div class="two fields">
+                                    <div class="field">
+                                        <label>Delivery Received On</label>
+                                        <div class="field">
+                                            <input class="datetimepicker" type="text" placeholder="optional">
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label>Delivery Received By</label>
+                                        <select ng-model="newOrder.delivery_received_by" class="ui search dropdown">
+                                            <option value=""></option>
+                                            <option value="{{ delivery_received_by.value }}"
+                                                    ng-repeat="delivery_received_by in postActions.delivery_received_by.choices">
+                                                {{ delivery_received_by.display_name }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="two fields">
+                                    <div class="field">
+                                        <label>Invoice PDF</label>
+                                        <input type="file" multiple>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -89,7 +146,7 @@
             <div class="row">
                 <div class="sixteen wide column right aligned">
                     <div class="ui red button">Cancel</div>
-                    <div class="ui green button">Create</div>
+                    <div class="ui green button" ng-click="createNewOrder()">Create</div>
                 </div>
             </div>
         </div>

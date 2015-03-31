@@ -60,6 +60,7 @@ module.controller("OrderListController", function($rootScope, $scope, $timeout, 
 
 module.controller("CreateOrderController", function($scope, Restangular) {
     $scope.$on('$viewContentLoaded', function(){
+        $scope.newOrder = {"bought_on": moment().format("DD.MM.YYYY")};
         $('.datetimepicker').datetimepicker({
             lang:'de',
             i18n:{
@@ -78,9 +79,33 @@ module.controller("CreateOrderController", function($scope, Restangular) {
             timepicker:false,
             format:'d.m.Y'
         });
-
         $('select.dropdown').dropdown();
+        $('.ui.accordion').accordion();
     });
 
-    $scope.currentDate = new Date();
+    Restangular.one("orders").options().then( function (response) {
+        $scope.postActions = response.actions.POST;
+    });
+
+    $scope.createNewOrder = function () {
+        var newOrder = $scope.newOrder;
+        newOrder.bought_on = moment(newOrder.bought_on, "DD.MM.YYYY").format();
+
+        if (newOrder.delivery_received_on) {
+            newOrder.delivery_received_on = moment(newOrder.delivery_received_on, "DD.MM.YYYY").format();
+        }
+
+        if (newOrder.tags) {
+            newOrder.tags = newOrder.tags.replace(/ /g,'').split(',');
+        } else {
+            newOrder.tags = [];
+        }
+
+        console.log(newOrder);
+        Restangular.one("orders").post('', newOrder).then( function(response) {
+            
+        }, function(response) {
+
+        });
+    };
 });
