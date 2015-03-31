@@ -2,8 +2,8 @@ var module = angular.module("shelfModule");
 
 module.controller("BodyController", function($scope, $location, Restangular, $route) {
     $scope.menuClass = function(page) {
-        var current = $location.path().substring(1);
-        return page === current ? "active" : "";
+        var current = $location.path().indexOf(page);
+        return current > -1 ? "active" : "";
     };
 
     $scope.login = function() {
