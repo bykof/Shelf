@@ -13,13 +13,15 @@
                             </div>
                             <div class="field">
                                 <label>Bought By</label>
-                                <select ng-model="newOrder.bought_by" class="ui search dropdown">
-                                    <option value=""></option>
-                                    <option value="{{ bought_by.value }}"
-                                            ng-repeat="bought_by in postActions.bought_by.choices">
-                                        {{ bought_by.display_name }}
-                                    </option>
-                                </select>
+                                <div class="field" data-content="{{ error_messages.bought_by[0] }}">
+                                    <select ng-model="newOrder.bought_by" class="ui search dropdown">
+                                        <option value=""></option>
+                                        <option value="{{ bought_by.value }}"
+                                                ng-repeat="bought_by in postActions.bought_by.choices">
+                                            {{ bought_by.display_name }}
+                                        </option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div class="two fields">
@@ -30,7 +32,8 @@
                             <div class="field">
                                 <label>Article</label>
                                 <div class="fields">
-                                    <div class="twelve wide field">
+                                    <div class="twelve wide field"
+                                         data-content="{{ error_messages.article[0] }}">
                                         <select ng-model="newOrder.article" class="ui dropdown search">
                                             <option value=""></option>
                                             <option value="{{ article.value }}"
@@ -49,7 +52,7 @@
                             <div class="field">
                                 <label>Category</label>
                                 <div class="fields">
-                                    <div class="twelve wide field">
+                                    <div class="twelve wide field" data-content="{{ error_messages.category[0] }}">
                                         <select ng-model="newOrder.category" class="ui dropdown">
                                             <option value=""></option>
                                             <option value="{{ category.value }}" ng-repeat="category in postActions.category.choices">
@@ -65,7 +68,7 @@
                             <div class="field">
                                 <label>Supplier</label>
                                 <div class="fields">
-                                    <div class="twelve wide field">
+                                    <div class="twelve wide field" data-content="{{ error_messages.supplier[0] }}">
                                         <select ng-model="newOrder.supplier" class="ui dropdown">
                                             <option value=""></option>
                                             <option value="{{ supplier.value }}" ng-repeat="supplier in postActions.supplier.choices">
@@ -82,14 +85,14 @@
                         <div class="two fields">
                             <div class="field">
                                 <label>Order Number</label>
-                                <div class="field">
+                                <div class="field" data-content="{{ error_messages.order_number[0] }}">
                                     <input ng-model="newOrder.order_number" type="text" placeholder="Order Number">
                                 </div>
                             </div>
                             <div class="field">
                                 <label>Payment Method</label>
                                 <div class="fields">
-                                    <div class="twelve wide field">
+                                    <div class="twelve wide field" data-content="{{ error_messages.payment_method[0] }}">
                                         <select ng-model="newOrder.payment_method" class="ui dropdown">
                                             <option value=""></option>
                                             <option value="{{ payment_method.value }}"
@@ -107,7 +110,7 @@
                         <div class="field">
                             <label>Tags</label>
                             <div class="eight wide field">
-                                <input ng-model="newOrder.tags" type="text">
+                                <input ng-model="newOrder.tags" ng-init="[]" ng-list=", " type="text">
                             </div>
                         </div>
                         <div class="ui accordion">
@@ -147,7 +150,7 @@
             </div>
             <div class="row">
                 <div class="sixteen wide column right aligned">
-                    <div class="ui red button">Cancel</div>
+                    <div class="ui red button" ng-click="back()">Cancel</div>
                     <div class="ui green button" ng-click="createNewOrder()">Create</div>
                 </div>
             </div>

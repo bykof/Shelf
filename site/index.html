@@ -7,15 +7,15 @@
 
 		<base href="http://127.0.0.1:80/">
 
-		<link href="css/libs/semantic.min.css" rel="stylesheet">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.6/semantic.min.css" rel="stylesheet">
         <link href="css/libs/jquery.datetimepicker.css" rel="stylesheet">
 		<link href="css/custom.css" rel="stylesheet">
 
 		<script src="js/libs/jquery.min.js"></script>
         <script src="js/libs/jquery.cookie.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.6/semantic.min.js"></script>
 		<script src="js/libs/moment-with-locales.js"></script>
         <script src="js/libs/jquery.datetimepicker.js"></script>
-		<script src="js/libs/semantic.min.js"></script>
 		<script src="js/libs/angular.min.js"></script>
 		<script src="js/libs/angular-route.min.js"></script>
         <script src="js/libs/lodash.min.js"></script>
@@ -24,6 +24,7 @@
 
         <!-- MAIN APP -->
 		<script src="js/angular/app.js"></script>
+		<script src="js/angular/runs.js"></script>
 		<script src="js/angular/controller.js"></script>
 		<script src="js/angular/routers.js"></script>
         <script src="js/angular/services.js"></script>
@@ -54,6 +55,14 @@
             </div>
         </div>
 		<div class="ui page grid" id="page-content">
+			<div class="sixteen wide column">
+				<div class="ui inline info-message-nag nag">
+					<span class="title">
+						{{ info_message }}
+					</span>
+					<i class="close icon"></i>
+				</div>
+			</div>
 			<div class="sixteen wide column">
 				<div class="ui menu">
                     <a class="item" href="/">

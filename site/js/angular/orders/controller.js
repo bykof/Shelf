@@ -58,7 +58,7 @@ module.controller("OrderListController", function($rootScope, $scope, $timeout, 
     };
 });
 
-module.controller("CreateOrderController", function($scope, Restangular) {
+module.controller("CreateOrderController", function($rootScope, $scope, Restangular, $timeout, $location) {
     $scope.$on('$viewContentLoaded', function(){
         $scope.newOrder = {"bought_on": moment().format("DD.MM.YYYY")};
         $('.datetimepicker').datetimepicker({
@@ -83,29 +83,55 @@ module.controller("CreateOrderController", function($scope, Restangular) {
         $('.ui.accordion').accordion();
     });
 
+    $scope.back = function() {
+        $location.path("/orders/list");
+    };
+
     Restangular.one("orders").options().then( function (response) {
         $scope.postActions = response.actions.POST;
     });
 
     $scope.createNewOrder = function () {
         var newOrder = $scope.newOrder;
-        newOrder.bought_on = moment(newOrder.bought_on, "DD.MM.YYYY").format();
+        formatTime(true);
 
-        if (newOrder.delivery_received_on) {
-            newOrder.delivery_received_on = moment(newOrder.delivery_received_on, "DD.MM.YYYY").format();
-        }
-
-        if (newOrder.tags) {
-            newOrder.tags = newOrder.tags.replace(/ /g,'').split(',');
-        } else {
+        if (!newOrder.tags) {
             newOrder.tags = [];
         }
 
-        console.log(newOrder);
         Restangular.one("orders").post('', newOrder).then( function(response) {
-
+            $rootScope.addMessage("Order successfully created! Have a great day!");
+            $scope.back();
         }, function(response) {
-
+            $scope.error_messages = null;
+            $scope.error_messages = response.data;
+            console.log($scope.error_messages);
+            $timeout( function() {
+                $("div[data-content]").each( function(index, element) {
+                    $(element).popup("destroy");
+                });
+                $("div[data-content]").popup("show", {"movePopup": false});
+            });
+            formatTime(false);
         });
     };
+
+    function formatTime(to_server) {
+        var newOrder = $scope.newOrder;
+
+        if (to_server) {
+            newOrder.bought_on = moment(newOrder.bought_on, "DD.MM.YYYY").format();
+        } else{
+            $scope.newOrder.bought_on = moment($scope.newOrder.bought_on).format("DD.MM.YYYY");
+        }
+
+
+        if (newOrder.delivery_received_on) {
+            if (to_server) {
+                newOrder.delivery_received_on = moment(newOrder.delivery_received_on, "DD.MM.YYYY").format();
+            } else {
+                newOrder.delivery_received_on = moment(newOrder.delivery_received_on).format("DD.MM.YYYY");
+            }
+        }
+    }
 });
