@@ -43,7 +43,9 @@
                                         </select>
                                     </div>
                                     <div class="four wide field right-align">
-                                        <div class="ui button"><i class="plus icon"></i> Create</div>
+                                        <div class="ui button" ng-click="createArticle()">
+                                            <i class="plus icon"></i> Create
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -61,7 +63,9 @@
                                         </select>
                                     </div>
                                     <div class="four wide field right-align">
-                                        <div class="ui button"><i class="plus icon"></i> Create</div>
+                                        <div class="ui button" ng-click="createCategory()">
+                                            <i class="plus icon"></i> Create
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -77,7 +81,9 @@
                                         </select>
                                     </div>
                                     <div class="four wide field right-align">
-                                        <div class="ui button"><i class="plus icon"></i> Create</div>
+                                        <div class="ui button" ng-click="createSupplier()">
+                                            <i class="plus icon"></i> Create
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -101,8 +107,10 @@
                                             </option>
                                         </select>
                                     </div>
-                                    <div class="four wide field right-align">
-                                        <div class="ui button"><i class="plus icon"></i> Create</div>
+                                    <div class="four wide field right-align" ng-click="createPaymentMethod()">
+                                        <div class="ui button">
+                                            <i class="plus icon"></i> Create
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -157,3 +165,7 @@
         </div>
     </div>
 </div>
+<ng-include src="'order-templates/createArticleModal.html'"></ng-include>
+<ng-include src="'order-templates/createCategoryModal.html'"></ng-include>
+<ng-include src="'order-templates/createSupplierModal.html'"></ng-include>
+<ng-include src="'order-templates/createPaymentMethodModal.html'"></ng-include>

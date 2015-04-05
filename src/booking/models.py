@@ -8,12 +8,12 @@ from taggit.managers import TaggableManager
 from users.models import User
 
 
-class BookingModel(models.Model):
+class BookingModel(object):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
 
-class OrderCategory(BookingModel):
+class OrderCategory(models.Model, BookingModel):
     name = models.CharField(max_length=255, unique=True)
 
     class Meta:
@@ -24,7 +24,7 @@ class OrderCategory(BookingModel):
         return u'{}'.format(self.name)
 
 
-class Article(BookingModel):
+class Article(models.Model, BookingModel):
     name = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=8, decimal_places=2)
 
@@ -36,9 +36,9 @@ class Article(BookingModel):
         return u'{} - {}'.format(self.name, self.price)
 
 
-class PaymentMethod(BookingModel):
+class PaymentMethod(models.Model, BookingModel):
     name = models.CharField(max_length=255, unique=True)
-    description = models.CharField(max_length=255)
+    description = models.CharField(max_length=255, blank=True)
 
     class Meta:
         verbose_name = _('Payment method')
@@ -48,7 +48,7 @@ class PaymentMethod(BookingModel):
         return u'{} - {}'.format(self.name, self.description[:20])
 
 
-class Supplier(BookingModel):
+class Supplier(models.Model, BookingModel):
     name = models.CharField(max_length=255, unique=True)
 
     class Meta:
@@ -59,7 +59,7 @@ class Supplier(BookingModel):
         return u'{}'.format(self.name)
 
 
-class Order(BookingModel):
+class Order(models.Model, BookingModel):
     ORDERED = 'ORDERED'
     WAITING_FOR_DELIVERY = 'WAITING_FOR_DELIVERY'
     DELIVERY_RECEIVED = 'DELIVERY_RECEIVED'

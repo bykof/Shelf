@@ -1,0 +1,34 @@
+<div class="ui modal" id="createArticleModal" ng-controller="CreateArticleController">
+    <i class="close icon"></i>
+    <div class="header">
+        New Article
+    </div>
+    <div class="content">
+        <div class="ui grid">
+            <div class="row">
+                <div class="sixteen wide column">
+                    <div class="ui form">
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Name</label>
+                                <div class="field">
+                                    <input type="text" ng-model="newArticle.name">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label>Price</label>
+                                <div class="field">
+                                    <input type="number" min="0" ng-model="newArticle.price">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui button red">Cancel</div>
+        <div class="ui button green ok" ng-click="save()">Save</div>
+    </div>
+</div>

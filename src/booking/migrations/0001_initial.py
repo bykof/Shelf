@@ -2,8 +2,10 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-from django.conf import settings
+import datetime
 import taggit.managers
+from django.conf import settings
+import booking.models
 
 
 class Migration(migrations.Migration):
@@ -15,20 +17,9 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='BookingModel',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('created', models.DateTimeField(auto_now_add=True)),
-                ('updated', models.DateTimeField(auto_now=True)),
-            ],
-            options={
-            },
-            bases=(models.Model,),
-        ),
-        migrations.CreateModel(
             name='Article',
             fields=[
-                ('bookingmodel_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='booking.BookingModel')),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=255)),
                 ('price', models.DecimalField(max_digits=8, decimal_places=2)),
             ],
@@ -36,13 +27,13 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Article',
                 'verbose_name_plural': 'Articles',
             },
-            bases=('booking.bookingmodel',),
+            bases=(models.Model, booking.models.BookingModel),
         ),
         migrations.CreateModel(
             name='Order',
             fields=[
-                ('bookingmodel_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='booking.BookingModel')),
-                ('bought_on', models.DateTimeField(null=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('bought_on', models.DateTimeField(default=datetime.datetime.now, blank=True)),
                 ('purpose', models.CharField(max_length=255, null=True, blank=True)),
                 ('order_number', models.CharField(max_length=255)),
                 ('delivery_received_on', models.DateTimeField(null=True, blank=True)),
@@ -55,24 +46,24 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Order',
                 'verbose_name_plural': 'Orders',
             },
-            bases=('booking.bookingmodel',),
+            bases=(models.Model, booking.models.BookingModel),
         ),
         migrations.CreateModel(
             name='OrderCategory',
             fields=[
-                ('bookingmodel_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='booking.BookingModel')),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(unique=True, max_length=255)),
             ],
             options={
                 'verbose_name': 'Order category',
                 'verbose_name_plural': 'Order categories',
             },
-            bases=('booking.bookingmodel',),
+            bases=(models.Model, booking.models.BookingModel),
         ),
         migrations.CreateModel(
             name='PaymentMethod',
             fields=[
-                ('bookingmodel_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='booking.BookingModel')),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(unique=True, max_length=255)),
                 ('description', models.CharField(max_length=255)),
             ],
@@ -80,19 +71,19 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Payment method',
                 'verbose_name_plural': 'Payment methods',
             },
-            bases=('booking.bookingmodel',),
+            bases=(models.Model, booking.models.BookingModel),
         ),
         migrations.CreateModel(
             name='Supplier',
             fields=[
-                ('bookingmodel_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='booking.BookingModel')),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(unique=True, max_length=255)),
             ],
             options={
                 'verbose_name': 'Supplier',
                 'verbose_name_plural': 'Suppliers',
             },
-            bases=('booking.bookingmodel',),
+            bases=(models.Model, booking.models.BookingModel),
         ),
         migrations.AddField(
             model_name='order',

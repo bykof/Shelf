@@ -1,0 +1,28 @@
+<div class="ui modal" id="createCategoryModal" ng-controller="CreateCategoryController">
+    <i class="close icon"></i>
+    <div class="header">
+        New Category
+    </div>
+    <div class="content">
+        <div class="ui grid">
+            <div class="row">
+                <div class="sixteen wide column">
+                    <div class="ui form">
+                        <div class="field">
+                            <div class="field">
+                                <label>Name</label>
+                                <div class="field">
+                                    <input type="text" ng-model="newCategory.name">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui button red">Cancel</div>
+        <div class="ui button green ok" ng-click="save()">Save</div>
+    </div>
+</div>

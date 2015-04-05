@@ -14,7 +14,7 @@ module.controller("OrderListController", function($rootScope, $scope, $timeout, 
 
     $scope.clearOrderSearch = function() {
         $scope.orderSearch = "";
-    }
+    };
 
     $scope.$watch("orderSearch", function(newValue, oldValue) {
         if (newValue && newValue.length >= 3) {
@@ -81,15 +81,32 @@ module.controller("CreateOrderController", function($rootScope, $scope, Restangu
         });
         $('select.dropdown').dropdown();
         $('.ui.accordion').accordion();
+        fillChoices();
+    });
+
+    $rootScope.$on("newDataCreated", function() {
+        fillChoices();
     });
 
     $scope.back = function() {
         $location.path("/orders/list");
     };
 
-    Restangular.one("orders").options().then( function (response) {
-        $scope.postActions = response.actions.POST;
-    });
+    $scope.createArticle = function() {
+        openCreateModal("createArticleModal");
+    };
+
+    $scope.createCategory = function() {
+        openCreateModal("createCategoryModal");
+    };
+
+    $scope.createSupplier = function() {
+        openCreateModal("createSupplierModal");
+    };
+
+    $scope.createPaymentMethod = function() {
+        openCreateModal("createPaymentMethodModal");
+    };
 
     $scope.createNewOrder = function () {
         var newOrder = $scope.newOrder;
@@ -103,9 +120,7 @@ module.controller("CreateOrderController", function($rootScope, $scope, Restangu
             $rootScope.addMessage("Order successfully created! Have a great day!");
             $scope.back();
         }, function(response) {
-            $scope.error_messages = null;
             $scope.error_messages = response.data;
-            console.log($scope.error_messages);
             $timeout( function() {
                 $("div[data-content]").each( function(index, element) {
                     $(element).popup("destroy");
@@ -115,6 +130,17 @@ module.controller("CreateOrderController", function($rootScope, $scope, Restangu
             formatTime(false);
         });
     };
+
+    function openCreateModal(modalId) {
+        $('#' + modalId).modal(
+            {
+                closable  : false,
+                onApprove : function() {
+                    return false;
+                }
+            }
+        ).modal("show");
+    }
 
     function formatTime(to_server) {
         var newOrder = $scope.newOrder;
@@ -133,5 +159,60 @@ module.controller("CreateOrderController", function($rootScope, $scope, Restangu
                 newOrder.delivery_received_on = moment(newOrder.delivery_received_on).format("DD.MM.YYYY");
             }
         }
+    }
+
+    function fillChoices () {
+        Restangular.one("orders").options().then( function (response) {
+            $scope.postActions = response.actions.POST;
+        });
+        $('select.dropdown').dropdown("refresh");
+    }
+});
+
+module.controller("CreateArticleController", function($rootScope, $scope, Restangular) {
+    $scope.save = function() {
+        Restangular.one("articles").post('', $scope.newArticle).then( function(response) {
+            $rootScope.addMessage("Article '" + $scope.newArticle.name + "' successfully saved!");
+            $('#createArticleModal').modal("hide");
+            $rootScope.$broadcast("newDataCreated", response);
+        }, function(response) {
+
+        });
+    }
+});
+
+module.controller("CreateCategoryController", function($rootScope, $scope, Restangular) {
+    $scope.save = function() {
+        Restangular.one("order-categories").post('', $scope.newCategory).then( function(response) {
+            $rootScope.addMessage("Category '" + $scope.newCategory.name + "' successfully saved!");
+            $('#createCategoryModal').modal("hide");
+            $rootScope.$broadcast("newDataCreated", response);
+        }, function(response) {
+
+        });
+    }
+});
+
+module.controller("CreateSupplierController", function($rootScope, $scope, Restangular) {
+    $scope.save = function() {
+        Restangular.one("suppliers").post('', $scope.newSupplier).then( function(response) {
+            $rootScope.addMessage("Supplier '" + $scope.newSupplier.name + "' successfully saved!");
+            $('#createSupplierModal').modal("hide");
+            $rootScope.$broadcast("newDataCreated", response);
+        }, function(response) {
+
+        });
+    }
+});
+
+module.controller("CreatePaymentMethodController", function($rootScope, $scope, Restangular) {
+    $scope.save = function() {
+        Restangular.one("payment-methods").post('', $scope.newPaymentMethod).then( function(response) {
+            $rootScope.addMessage("Payment Method '" + $scope.newPaymentMethod.name + "' successfully saved!");
+            $('#createPaymentMethodModal').modal("hide");
+            $rootScope.$broadcast("newDataCreated", response);
+        }, function(response) {
+
+        });
     }
 });

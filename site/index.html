@@ -33,25 +33,25 @@
         <script src="js/angular/orders/controller.js"></script>
 	</head>
 	<body ng-controller="BodyController">
-        <div class="ui page grid" id="login-form-container">
-            <div class="four wide centered column">
-                <div class="ui segment" style="margin-top: 30px;">
-                    <form class="ui form" id="login-form">
-                        <div class="field">
-                            <label>Username</label>
-                            <div class="field">
-                                <input ng-model="loginModel.username" type="text" name="username" placeholder="Username">
-                            </div>
-                        </div>
-                        <div class="field">
-                            <label>Password</label>
-                            <div class="field">
-                                <input ng-model="loginModel.password" type="password" name="password" placeholder="Password">
-                            </div>
-                        </div>
-                        <div class="ui submit button">Login</div>
-                    </form>
-                </div>
+		<div class="ui one column stackable center aligned page grid" id="login-form-container">
+			<div class="column twelve wide">
+				<div class="ui segment">
+					<form class="ui form" id="login-form">
+						<div class="field">
+							<label>Username</label>
+							<div class="field">
+								<input ng-model="loginModel.username" type="text" name="username" placeholder="Username">
+							</div>
+						</div>
+						<div class="field">
+							<label>Password</label>
+							<div class="field">
+								<input ng-model="loginModel.password" type="password" name="password" placeholder="Password">
+							</div>
+						</div>
+						<div class="ui submit button">Login</div>
+					</form>
+				</div>
             </div>
         </div>
 		<div class="ui page grid" id="page-content">

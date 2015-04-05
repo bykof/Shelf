@@ -58,6 +58,7 @@ class OrderViewSet(ModelViewSet):
         'payment_method__description',
         'order_number',
         'purpose',
+        'tags__name',
     )
 
     def update(self, request, *args, **kwargs):
