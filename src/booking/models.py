@@ -83,7 +83,6 @@ class Order(models.Model, BookingModel):
     delivery_received_on = models.DateTimeField(null=True, blank=True)
     delivery_received_by = models.ForeignKey(User, null=True, blank=True, related_name='received_orders')
     status = models.CharField(max_length=255, choices=STATUS_CHOICES, default=ORDERED)
-    invoice_document = models.FileField(null=True, blank=True)
     tags = TaggableManager(blank=True)
 
     class Meta:
@@ -97,3 +96,8 @@ class Order(models.Model, BookingModel):
 
     def __unicode__(self):
         return _(u'Article {} bought on {}'.format(self.article, self.bought_on))
+
+
+class InvoiceDocument(models.Model, BookingModel):
+    order = models.ForeignKey(Order, related_name='invoice_documents')
+    invoice_file = models.FileField(upload_to='invoices')

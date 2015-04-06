@@ -1,10 +1,9 @@
-from rest_framework.serializers import ModelSerializer, Field
-from rest_framework.exceptions import ParseError
+from rest_framework.serializers import ModelSerializer
 
 from taggit_serializer.serializers import TagListSerializerField, TaggitSerializer
 
 from users.models import User
-from booking.models import OrderCategory, Article, PaymentMethod, Supplier, Order
+from booking.models import OrderCategory, Article, PaymentMethod, Supplier, Order, InvoiceDocument
 
 
 """
@@ -65,4 +64,9 @@ class ReadOrderSerializer(ModelSerializer):
 
     class Meta:
         model = Order
+
+
+class InvoiceDocumentSerializer(ModelSerializer):
+    class Meta:
+        model = InvoiceDocument
 

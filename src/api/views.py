@@ -2,10 +2,10 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import SearchFilter
 
 from users.models import User
-from booking.models import OrderCategory, Article, PaymentMethod, Supplier, Order
+from booking.models import OrderCategory, Article, PaymentMethod, Supplier, Order, InvoiceDocument
 
 from .serializers import OrderCategorySerializer, ArticleSerializer, PaymentMethodSerializer, SupplierSerializer
-from .serializers import OrderSerializer, ReadOrderSerializer, UserSerializer
+from .serializers import OrderSerializer, ReadOrderSerializer, UserSerializer, InvoiceDocumentSerializer
 
 
 class UserViewSet(ModelViewSet):
@@ -33,6 +33,11 @@ class ArticleViewSet(ModelViewSet):
 class PaymentMethodViewSet(ModelViewSet):
     queryset = PaymentMethod.objects.all()
     serializer_class = PaymentMethodSerializer
+
+
+class InvoiceDocumentViewSet(ModelViewSet):
+    queryset = InvoiceDocument.objects.all()
+    serializer_class = InvoiceDocumentSerializer
 
 
 class SupplierViewSet(ModelViewSet):
@@ -72,3 +77,6 @@ class OrderViewSet(ModelViewSet):
             return OrderSerializer
         else:
             return OrderSerializer
+
+
+# TODO: create order view for creation of orders and upload of invoice documents
