@@ -1,0 +1,189 @@
+<div ng-controller="DetailOrderController">
+    <div class="ui segment">
+        <div class="ui grid">
+            <div class="row">
+                <div class="sixteen wide column">
+                    <h2>Detail Order: #{{ order.id }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ui segment">
+        <div class="ui grid">
+            <div class="row">
+                <div class="sixteen wide column">
+                    <div class="ui form">
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Bought on</label>
+                                <div class="field">
+                                    <input class="datetimepicker" type="text" ng-model="order.bought_on">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label>Bought By</label>
+                                <div class="field" data-content="{{ error_messages.bought_by[0] }}">
+                                    <select ng-model="order.bought_by" class="ui dropdown">
+                                        <option value="{{ bought_by.value }}"
+                                                ng-repeat="bought_by in postActions.bought_by.choices"
+                                                ng-selected="bought_by.value == order.bought_by.id">
+                                            {{ bought_by.display_name }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Purpose</label>
+                                <input ng-model="newOrder.purpose" type="text" placeholder="Purpose" value="{{ order.purpose }}">
+                            </div>
+                            <div class="field">
+                                <label>Article</label>
+                                <div class="fields">
+                                    <div class="twelve wide field"
+                                         data-content="{{ error_messages.article[0] }}">
+                                        <select ng-model="newOrder.article" class="ui dropdown search">
+                                            <option value=""></option>
+                                            <option value="{{ article.value }}"
+                                                    ng-repeat="article in postActions.article.choices"
+                                                    ng-selected="article.value == order.article.id">
+                                                {{ article.display_name }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="four wide field right-align">
+                                        <div class="ui button" ng-click="createArticle()">
+                                            <i class="plus icon"></i> Create
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Category</label>
+                                <div class="fields">
+                                    <div class="twelve wide field" data-content="{{ error_messages.category[0] }}">
+                                        <select ng-model="newOrder.category" class="ui dropdown">
+                                            <option value=""></option>
+                                            <option value="{{ category.value }}"
+                                                    ng-repeat="category in postActions.category.choices"
+                                                    ng-selected="category.value == order.category.id">
+                                                {{ category.display_name }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="four wide field right-align">
+                                        <div class="ui button" ng-click="createCategory()">
+                                            <i class="plus icon"></i> Create
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label>Supplier</label>
+                                <div class="fields">
+                                    <div class="twelve wide field" data-content="{{ error_messages.supplier[0] }}">
+                                        <select ng-model="newOrder.supplier" class="ui dropdown">
+                                            <option value=""></option>
+                                            <option value="{{ supplier.value }}"
+                                                    ng-repeat="supplier in postActions.supplier.choices"
+                                                    ng-selected="supplier.value == order.supplier.id">
+                                                {{ supplier.display_name }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="four wide field right-align">
+                                        <div class="ui button" ng-click="createSupplier()">
+                                            <i class="plus icon"></i> Create
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Order Number</label>
+                                <div class="field" data-content="{{ error_messages.order_number[0] }}">
+                                    <input ng-model="order.order_number" type="text" placeholder="Order Number">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label>Payment Method</label>
+                                <div class="fields">
+                                    <div class="twelve wide field" data-content="{{ error_messages.payment_method[0] }}">
+                                        <select ng-model="newOrder.payment_method" class="ui dropdown">
+                                            <option value=""></option>
+                                            <option value="{{ payment_method.value }}"
+                                                    ng-repeat="payment_method in postActions.payment_method.choices"
+                                                    ng-selected="payment_method.value == order.payment_method.id">
+                                                {{ payment_method.display_name }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="four wide field right-align" ng-click="createPaymentMethod()">
+                                        <div class="ui button">
+                                            <i class="plus icon"></i> Create
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Tags (seperated by comma)</label>
+                            <div class="eight wide field">
+                                <input ng-model="newOrder.tags" ng-init="[]" ng-list=", " type="text">
+                            </div>
+                        </div>
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Delivery Received On</label>
+                                <div class="field">
+                                    <input class="datetimepicker" type="text" placeholder="optional" value="{{ order.delivery_received_on }}">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label>Delivery Received By</label>
+                                <select ng-model="newOrder.delivery_received_by" class="ui search dropdown">
+                                    <option value=""></option>
+                                    <option value="{{ delivery_received_by.value }}"
+                                            ng-repeat="delivery_received_by in postActions.delivery_received_by.choices"
+                                            ng-selected="delivery_received_by.value == order.delivery_received_by.id">
+                                        {{ delivery_received_by.display_name }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Invoice PDF</label>
+                                <div class="ui button" ng-file-select ng-model="newOrder.invoice_documents"
+                                     ng-multiple="true">
+                                    Upload PDFs
+                                </div>
+                                <div ng-show="newOrder.invoice_documents.length > 0">
+                                    Files:
+                                    <div class="ui label" ng-repeat="invoice_document in newOrder.invoice_documents">
+                                        {{ invoice_document.name }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="sixteen wide column right aligned">
+                    <div class="ui red button" ng-click="back()">Cancel</div>
+                    <div class="ui green button" ng-click="createNewOrder()">Save</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-include src="'templates/uploadProgressBarModal.html'"></ng-include>
+</div>
+<ng-include src="'order-templates/createArticleModal.html'"></ng-include>
+<ng-include src="'order-templates/createCategoryModal.html'"></ng-include>
+<ng-include src="'order-templates/createSupplierModal.html'"></ng-include>
+<ng-include src="'order-templates/createPaymentMethodModal.html'"></ng-include>

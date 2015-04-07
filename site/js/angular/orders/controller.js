@@ -1,6 +1,27 @@
 var module = angular.module("shelfModule");
 var searchTimer = false;
 
+function initDatePicker() {
+    $('.datetimepicker').datetimepicker({
+        lang:'de',
+        i18n:{
+            de:{
+                months:[
+                    'Januar','Februar','März','April',
+                    'Mai','Juni','Juli','August',
+                    'September','Oktober','November','Dezember',
+                ],
+                dayOfWeek:[
+                    "So.", "Mo", "Di", "Mi",
+                    "Do", "Fr", "Sa."
+                ]
+            }
+        },
+        timepicker:false,
+        format:'d.m.Y'
+    });
+}
+
 module.controller("OrderListController", function($rootScope, $scope, $timeout, Restangular, loaderTexts) {
     if (!$.cookie("djangocookie")) {
         return
@@ -63,24 +84,7 @@ module.controller(
     function($rootScope, $scope, Restangular, $timeout, $location, $upload, GlobalService) {
     $scope.$on('$viewContentLoaded', function(){
         $scope.newOrder = {"bought_on": moment().format("DD.MM.YYYY"), "invoice_documents": []};
-        $('.datetimepicker').datetimepicker({
-            lang:'de',
-            i18n:{
-                de:{
-                    months:[
-                        'Januar','Februar','März','April',
-                        'Mai','Juni','Juli','August',
-                        'September','Oktober','November','Dezember',
-                    ],
-                    dayOfWeek:[
-                        "So.", "Mo", "Di", "Mi",
-                        "Do", "Fr", "Sa."
-                    ]
-                }
-            },
-            timepicker:false,
-            format:'d.m.Y'
-        });
+        initDatePicker();
         $('select.dropdown').dropdown();
         $('.ui.accordion').accordion();
         fillChoices();
@@ -237,5 +241,46 @@ module.controller("CreatePaymentMethodController", function($rootScope, $scope, 
         }, function(response) {
             $scope.errors = response.data;
         });
+    }
+});
+
+module.controller("DetailOrderController", function($rootScope, $scope, Restangular, $routeParams, $timeout) {
+    Restangular.one("orders").one($routeParams.orderId).get().then( function(response) {
+        $scope.order = response;
+        formatTime(false);
+        $timeout( function(){
+            $('.dropdown').dropdown("set selected");
+        }, 0);
+    });
+
+    $scope.$on('$viewContentLoaded', function(){
+        fillChoices();
+        initDatePicker();
+    });
+
+    function formatTime(to_server) {
+        var order = $scope.order;
+
+        if (to_server) {
+            order.bought_on = moment(order.bought_on, "DD.MM.YYYY").format();
+        } else{
+            $scope.order.bought_on = moment($scope.order.bought_on).format("DD.MM.YYYY");
+        }
+
+
+        if (order.delivery_received_on) {
+            if (to_server) {
+                order.delivery_received_on = moment(order.delivery_received_on, "DD.MM.YYYY").format();
+            } else {
+                order.delivery_received_on = moment(order.delivery_received_on).format("DD.MM.YYYY");
+            }
+        }
+    }
+
+    function fillChoices () {
+        Restangular.one("orders").options().then( function (response) {
+            $scope.postActions = response.actions.POST;
+        });
+        $('.dropdown').dropdown("refresh");
     }
 });

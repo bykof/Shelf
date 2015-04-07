@@ -13,6 +13,10 @@ module.config(['$routeProvider', '$locationProvider',
             .when('/orders/list', {
                 templateUrl: 'order-templates/list.html'
             })
+            .when('/orders/detail/:orderId', {
+                templateUrl: 'order-templates/detail.html',
+                controller: "DetailOrderController",
+            })
             .when('/orders/create', {
                 templateUrl: 'order-templates/create.html',
                 controller: "CreateOrderController"
