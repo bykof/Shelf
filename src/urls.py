@@ -17,3 +17,13 @@ urlpatterns = patterns(
     url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/', include('api.urls')),
 )
+
+if settings.DEBUG:
+    urlpatterns += [
+        url(
+            r'files/(?P<path>.*)$',
+            'django.views.static.serve',
+            {'document_root': settings.MEDIA_ROOT,
+             'show_indexes': True}
+        ),
+    ]

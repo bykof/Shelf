@@ -30,6 +30,9 @@ TEMPLATE_DIRS = (
     BASE_DIR + '/templates',
 )
 
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'files')
+MEDIA_URL = 'files/'
+
 DJANGO_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
