@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .models import OrderCategory, Article, PaymentMethod, \
-    Supplier, Order
+    Supplier, Order, InvoiceDocument
 
 
 @admin.register(OrderCategory)
@@ -26,4 +26,9 @@ class SupplierAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(InvoiceDocument)
+class InvoiceDocumentAdmin(admin.ModelAdmin):
     pass

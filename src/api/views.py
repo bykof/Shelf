@@ -1,5 +1,9 @@
+import json
+
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import SearchFilter
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 from users.models import User
 from booking.models import OrderCategory, Article, PaymentMethod, Supplier, Order, InvoiceDocument
@@ -79,4 +83,24 @@ class OrderViewSet(ModelViewSet):
             return OrderSerializer
 
 
-# TODO: create order view for creation of orders and upload of invoice documents
+@api_view(['POST'])
+def create_order_with_documents(request):
+
+    if request.method == 'POST':
+        new_order_deserializer = OrderSerializer(data=json.loads(request.DATA['data']))
+
+        if new_order_deserializer.is_valid(raise_exception=True):
+            new_order = new_order_deserializer.save()
+            for temp_file in request.FILES.getlist('file'):
+
+                new_invoice_document_deserializer = InvoiceDocumentSerializer(
+                    data={
+                        'order': new_order.id,
+                        'invoice_file': temp_file,
+                    },
+                )
+
+                if new_invoice_document_deserializer.is_valid(raise_exception=True):
+                    new_invoice_document_deserializer.save()
+
+    return Response(status=200)
