@@ -42,6 +42,10 @@ DJANGO_APPS = (
     'django.contrib.staticfiles',
 )
 
+AUTHENTICATION_BACKENDS = (
+    'django_auth_ldap.backend.LDAPBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 THIRD_PARTY_APPS = (
     'ldap_sync',  # ldap sync
@@ -88,6 +92,12 @@ AUTH_LDAP_USER_SEARCH = LDAPSearch(
     "(CN=%(user)s)",
 )
 
+AUTH_LDAP_USER_ATTR_MAP = {
+    "first_name": "givenName",
+    "last_name": "sn",
+    "email": "mail"
+}
+
 # Set up the basic group parameters.
 AUTH_LDAP_GROUP_SEARCH = LDAPSearch(
     config.get('ldap-login', 'group_search'),
@@ -104,6 +114,7 @@ AUTH_LDAP_USER_FLAGS_BY_GROUP = {
 AUTH_LDAP_GROUP_TYPE = ActiveDirectoryGroupType()
 
 # Cache group memberships for an hour to minimize LDAP traffic
+AUTH_LDAP_ALWAYS_UPDATE_USER = True
 AUTH_LDAP_CACHE_GROUPS = True
 AUTH_LDAP_GROUP_CACHE_TIMEOUT = 1000
 # END LDAP LOGIN CONFIG
