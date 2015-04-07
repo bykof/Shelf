@@ -43,12 +43,11 @@
                             <th>Supplier</th>
                             <th>Tags</th>
                             <th>Purpose</th>
-                            <th>Received on</th>
-                            <th>Received by</th>
+                            <th>Details</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr dir-paginate="order in orders | itemsPerPage: 10" total-items="totalOrders">
+                        <tr dir-paginate="order in orders | itemsPerPage: 25" total-items="totalOrders">
                             <td>{{ order.id }}</td>
                             <td>{{ order.bought_on | date : 'dd.MM.yyyy' }}</td>
                             <td>{{ order.bought_by.first_name }} {{ order.bought_by.last_name }}</td>
@@ -61,19 +60,8 @@
                                 {{ order.purpose }}
                             </td>
                             <td>
-                                <div ng-if="order.delivery_received_on">
-                                    {{ order.delivery_received_on | date : 'dd.MM.yyyy' }}
-                                </div>
-                                <div ng-if="!order.delivery_received_on">
-                                    -
-                                </div>
-                            </td>
-                            <td>
-                                <div ng-if="order.delivery_received_by">
-                                    {{ order.delivery_received_by }}
-                                </div>
-                                <div ng-if="!order.delivery_received_by">
-                                    -
+                                <div class="circular ui icon button">
+                                    <i class="icon wizard"></i>
                                 </div>
                             </td>
                         </tr>

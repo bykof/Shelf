@@ -121,7 +121,7 @@ module.controller(
         var files = $scope.newOrder.invoice_documents;
         delete $scope.newOrder["invoice_documents"];
 
-        if ($scope.newOrder.invoice_documents) {
+        if (files && files.length > 0) {
             openModal("uploadProgressBarModal");
         }
 
@@ -135,7 +135,6 @@ module.controller(
             $("#upload-progress").progress({
                 percent: parseInt(100.0 * evt.loaded / evt.total)
             });
-            $scope.current_uploading_file = evt.config.file.name;
         }).success(function(data, status, headers, config) {
             closeModal("uploadProgressBarModal");
             $rootScope.addMessage("Order successfully created! Have a great day!");
