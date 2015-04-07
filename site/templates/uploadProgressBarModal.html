@@ -1,0 +1,24 @@
+<div class="ui modal" id="uploadProgressBarModal">
+    <i class="close icon"></i>
+    <div class="header">
+        Upload Status
+    </div>
+    <div class="content">
+        <div class="ui grid">
+            <div class="row">
+                <div class="sixteen wide column">
+                    <div class="ui progress">
+                        <div class="bar">
+                            <div class="progress" id="upload-progress"></div>
+                        </div>
+                        <div class="label">{{ current_uploading_file }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui button red">Cancel</div>
+        <div class="ui button green ok" ng-click="save()">Save</div>
+    </div>
+</div>

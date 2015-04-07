@@ -58,9 +58,11 @@ module.controller("OrderListController", function($rootScope, $scope, $timeout, 
     };
 });
 
-module.controller("CreateOrderController", function($rootScope, $scope, Restangular, $timeout, $location) {
+module.controller(
+    "CreateOrderController",
+    function($rootScope, $scope, Restangular, $timeout, $location, $upload, GlobalService) {
     $scope.$on('$viewContentLoaded', function(){
-        $scope.newOrder = {"bought_on": moment().format("DD.MM.YYYY")};
+        $scope.newOrder = {"bought_on": moment().format("DD.MM.YYYY"), "invoice_documents": []};
         $('.datetimepicker').datetimepicker({
             lang:'de',
             i18n:{
@@ -93,19 +95,19 @@ module.controller("CreateOrderController", function($rootScope, $scope, Restangu
     };
 
     $scope.createArticle = function() {
-        openCreateModal("createArticleModal");
+        openModal("createArticleModal");
     };
 
     $scope.createCategory = function() {
-        openCreateModal("createCategoryModal");
+        openModal("createCategoryModal");
     };
 
     $scope.createSupplier = function() {
-        openCreateModal("createSupplierModal");
+        openModal("createSupplierModal");
     };
 
     $scope.createPaymentMethod = function() {
-        openCreateModal("createPaymentMethodModal");
+        openModal("createPaymentMethodModal");
     };
 
     $scope.createNewOrder = function () {
@@ -116,22 +118,40 @@ module.controller("CreateOrderController", function($rootScope, $scope, Restangu
             newOrder.tags = [];
         }
 
-        Restangular.one("orders").post('', newOrder).then( function(response) {
+        var files = $scope.newOrder.invoice_documents;
+        delete $scope.newOrder["invoice_documents"];
+
+        if ($scope.newOrder.invoice_documents) {
+            openModal("uploadProgressBarModal");
+        }
+
+        $upload.upload({
+            url: GlobalService.apiServer + "/create-order-with-documents/",
+            file: files,
+            method: "POST",
+            headers: {"Authorization": "Token " + $.cookie("djangocookie")},
+            data: newOrder
+        }).progress(function(evt) {
+            $("#upload-progress").progress({
+                percent: parseInt(100.0 * evt.loaded / evt.total)
+            });
+            $scope.current_uploading_file = evt.config.file.name;
+        }).success(function(data, status, headers, config) {
+            closeModal("uploadProgressBarModal");
             $rootScope.addMessage("Order successfully created! Have a great day!");
             $scope.back();
-        }, function(response) {
-            $scope.error_messages = response.data;
+        }).error( function( response) {
+            closeModal("uploadProgressBarModal");
+            $scope.error_messages = response;
             $timeout( function() {
-                $("div[data-content]").each( function(index, element) {
-                    $(element).popup("destroy");
-                });
                 $("div[data-content]").popup("show", {"movePopup": false});
             });
             formatTime(false);
+            $scope.newOrder["invoice_documents"] = files;
         });
     };
 
-    function openCreateModal(modalId) {
+    function openModal(modalId) {
         $('#' + modalId).modal(
             {
                 closable  : false,
@@ -140,6 +160,10 @@ module.controller("CreateOrderController", function($rootScope, $scope, Restangu
                 }
             }
         ).modal("show");
+    }
+
+    function closeModal(modalId) {
+        $('#' + modalId).modal("hide");
     }
 
     function formatTime(to_server) {
@@ -176,7 +200,7 @@ module.controller("CreateArticleController", function($rootScope, $scope, Restan
             $('#createArticleModal').modal("hide");
             $rootScope.$broadcast("newDataCreated", response);
         }, function(response) {
-
+            $scope.errors = response.data;
         });
     }
 });
@@ -188,7 +212,7 @@ module.controller("CreateCategoryController", function($rootScope, $scope, Resta
             $('#createCategoryModal').modal("hide");
             $rootScope.$broadcast("newDataCreated", response);
         }, function(response) {
-
+            $scope.errors = response.data;
         });
     }
 });
@@ -200,7 +224,7 @@ module.controller("CreateSupplierController", function($rootScope, $scope, Resta
             $('#createSupplierModal').modal("hide");
             $rootScope.$broadcast("newDataCreated", response);
         }, function(response) {
-
+            $scope.errors = response.data;
         });
     }
 });
@@ -212,7 +236,7 @@ module.controller("CreatePaymentMethodController", function($rootScope, $scope, 
             $('#createPaymentMethodModal').modal("hide");
             $rootScope.$broadcast("newDataCreated", response);
         }, function(response) {
-
+            $scope.errors = response.data;
         });
     }
 });

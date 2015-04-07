@@ -16,3 +16,9 @@ module.service("loaderTexts", function() {
         return loaderTexts[Math.floor((Math.random() * loaderTexts.length) + 0)];
     }
 });
+
+module.factory('GlobalService', function() {
+    return {
+        apiServer : 'http://127.0.0.1:8000/api'
+    };
+})

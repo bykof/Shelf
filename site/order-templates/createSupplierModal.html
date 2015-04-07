@@ -19,6 +19,15 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="sixteen wide column">
+                    <div class="ui red message" ng-show="errors">
+                        <p ng-repeat="(key, error_messages) in errors">{{ key }}:
+                            <span ng-repeat="error_message in error_messages">{{ error_message }}</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="actions">
