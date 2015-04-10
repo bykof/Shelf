@@ -1,3 +1,4 @@
+import os
 import datetime
 
 from django.utils.translation import ugettext as _
@@ -8,12 +9,15 @@ from taggit.managers import TaggableManager
 from users.models import User
 
 
-class BookingModel(object):
+class BookingModel(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        abstract = True
 
-class OrderCategory(models.Model, BookingModel):
+
+class OrderCategory(BookingModel):
     name = models.CharField(max_length=255, unique=True)
 
     class Meta:
@@ -24,7 +28,7 @@ class OrderCategory(models.Model, BookingModel):
         return u'{}'.format(self.name)
 
 
-class Article(models.Model, BookingModel):
+class Article(BookingModel):
     name = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=8, decimal_places=2)
 
@@ -36,7 +40,7 @@ class Article(models.Model, BookingModel):
         return u'{} - {}'.format(self.name, self.price)
 
 
-class PaymentMethod(models.Model, BookingModel):
+class PaymentMethod(BookingModel):
     name = models.CharField(max_length=255, unique=True)
     description = models.CharField(max_length=255, blank=True)
 
@@ -48,7 +52,7 @@ class PaymentMethod(models.Model, BookingModel):
         return u'{} - {}'.format(self.name, self.description[:20])
 
 
-class Supplier(models.Model, BookingModel):
+class Supplier(BookingModel):
     name = models.CharField(max_length=255, unique=True)
 
     class Meta:
@@ -59,7 +63,7 @@ class Supplier(models.Model, BookingModel):
         return u'{}'.format(self.name)
 
 
-class Order(models.Model, BookingModel):
+class Order(BookingModel):
     ORDERED = 'ORDERED'
     WAITING_FOR_DELIVERY = 'WAITING_FOR_DELIVERY'
     DELIVERY_RECEIVED = 'DELIVERY_RECEIVED'
@@ -89,7 +93,6 @@ class Order(models.Model, BookingModel):
         verbose_name = _('Order')
         verbose_name_plural = _('Orders')
 
-
     @property
     def get_tags(self, *args, **kwargs):
         return self.tags.filter(*args, **kwargs)
@@ -98,6 +101,16 @@ class Order(models.Model, BookingModel):
         return _(u'Article {} bought on {}'.format(self.article, self.bought_on))
 
 
-class InvoiceDocument(models.Model, BookingModel):
+class InvoiceDocument(BookingModel):
     order = models.ForeignKey(Order, related_name='invoice_documents')
     invoice_file = models.FileField(upload_to='invoices')
+
+    @property
+    def invoice_file_filename(self):
+        return os.path.basename(self.invoice_file.name)
+
+    def __unicode__(self):
+        return 'Order: {} - Datei: {}'.format(
+            self.order_id,
+            self.invoice_file.name
+        )
