@@ -64,18 +64,6 @@ class Supplier(BookingModel):
 
 
 class Order(BookingModel):
-    ORDERED = 'ORDERED'
-    WAITING_FOR_DELIVERY = 'WAITING_FOR_DELIVERY'
-    DELIVERY_RECEIVED = 'DELIVERY_RECEIVED'
-    CREATED_INVENTORY_ITEM = 'CREATED_INVENTORY_ITEM'
-
-    STATUS_CHOICES = (
-        (ORDERED, _('Ordered')),
-        (WAITING_FOR_DELIVERY, _('Waiting for delivery')),
-        (DELIVERY_RECEIVED, _('Delivery received')),
-        (CREATED_INVENTORY_ITEM, _('Inventory item was created'))
-    )
-
     bought_by = models.ForeignKey(User, related_name='bought_orders')
     bought_on = models.DateTimeField(default=datetime.datetime.now, blank=True)
     category = models.ForeignKey(OrderCategory, related_name='orders')
@@ -86,7 +74,6 @@ class Order(BookingModel):
     order_number = models.CharField(max_length=255)
     delivery_received_on = models.DateTimeField(null=True, blank=True)
     delivery_received_by = models.ForeignKey(User, null=True, blank=True, related_name='received_orders')
-    status = models.CharField(max_length=255, choices=STATUS_CHOICES, default=ORDERED)
     tags = TaggableManager(blank=True)
 
     class Meta:
