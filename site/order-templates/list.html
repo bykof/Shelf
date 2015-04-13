@@ -47,7 +47,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr dir-paginate="order in orders | itemsPerPage: 25">
+                        <tr dir-paginate="order in orders | filter: orderSearch | itemsPerPage: 25">
                             <td>{{ order.id }}</td>
                             <td>{{ order.bought_on | date : 'dd.MM.yyyy' }}</td>
                             <td>{{ order.bought_by.first_name }} {{ order.bought_by.last_name }}</td>

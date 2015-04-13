@@ -65,6 +65,7 @@ class ReadOrderSerializer(ModelSerializer):
     created = DateTimeField()
     updated = DateTimeField()
     bought_by = UserSerializer()
+    delivery_received_by = UserSerializer()
     category = OrderCategorySerializer()
     article = ArticleSerializer()
     supplier = SupplierSerializer()

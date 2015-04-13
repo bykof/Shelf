@@ -49,27 +49,6 @@ module.controller("OrderListController", function($rootScope, $scope, $timeout, 
         $scope.orderSearch = "";
     };
 
-    $scope.$watch("orderSearch", function(newValue, oldValue) {
-        if (newValue && newValue.length >= 3) {
-            if(searchTimer){
-                $timeout.cancel(searchTimer);
-            }
-
-            searchTimer = $timeout(function(){
-                getOrders();
-            }, 1000);
-
-            $("#search-delete-icon").removeClass("search");
-            $("#search-delete-icon").addClass("remove circle");
-        } else {
-            if(oldValue && oldValue.length >= 3 && newValue.length < oldValue.length) {
-                getOrders();
-            }
-            $("#search-delete-icon").addClass("search");
-            $("#search-delete-icon").removeClass("remove circle");
-        }
-    });
-
     function getOrders() {
         var listLoader = $("#list-loader");
         $scope.loaderText = loaderTexts.getRandomText();
@@ -250,8 +229,9 @@ module.controller(
             $scope.order = response;
             formatTime(false);
             $timeout( function(){
+                fillChoices();
                 $('.dropdown').dropdown("set selected");
-            }, 0);
+            }, 50);
         });
 
         $rootScope.$on("newDataCreated", function() {
@@ -305,8 +285,8 @@ module.controller(
         function fillChoices () {
             Restangular.one("orders").options().then( function (response) {
                 $scope.postActions = response.actions.POST;
+                $('.dropdown').dropdown("refresh");
             });
-            $('.dropdown').dropdown("refresh");
         }
 
         $scope.saveOrder = function () {
