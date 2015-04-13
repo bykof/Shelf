@@ -50,8 +50,11 @@ class SupplierViewSet(ModelViewSet):
 
 
 class OrderViewSet(ModelViewSet):
-    queryset = Order.objects.all().order_by('-id')
-    paginate_by = 25
+    queryset = Order.objects.order_by('-id').select_related().prefetch_related(
+        'tags',
+        'invoice_documents',
+    )
+
     filter_backends = (SearchFilter,)
     search_fields = (
         'bought_by__first_name',

@@ -40,14 +40,10 @@ function openModal(modalId) {
 
 module.controller("OrderListController", function($rootScope, $scope, $timeout, Restangular, loaderTexts) {
     if (!$.cookie("djangocookie")) {
-        return
+        return;
     }
 
-    getOrdersByPage(1);
-
-    $scope.pageChanged = function(newPageNumber) {
-        getOrdersByPage(newPageNumber);
-    };
+    getOrders();
 
     $scope.clearOrderSearch = function() {
         $scope.orderSearch = "";
@@ -60,34 +56,35 @@ module.controller("OrderListController", function($rootScope, $scope, $timeout, 
             }
 
             searchTimer = $timeout(function(){
-                getOrdersByPage(1);
+                getOrders();
             }, 1000);
 
             $("#search-delete-icon").removeClass("search");
             $("#search-delete-icon").addClass("remove circle");
         } else {
             if(oldValue && oldValue.length >= 3 && newValue.length < oldValue.length) {
-                getOrdersByPage(1)
+                getOrders();
             }
             $("#search-delete-icon").addClass("search");
             $("#search-delete-icon").removeClass("remove circle");
         }
     });
 
-    function getOrdersByPage(pageNumber) {
+    function getOrders() {
         var listLoader = $("#list-loader");
         $scope.loaderText = loaderTexts.getRandomText();
         listLoader.addClass("active");
         if ($scope.orderSearch != "" || $scope.orderSearch.length >= 3) {
-            Restangular.one("orders").get({"page": pageNumber, "search": $scope.orderSearch}).then( function(response) {
-                $scope.totalOrders = response.count;
-                $scope.orders = response.results;
+            Restangular.one("orders").get({"search": $scope.orderSearch}).then( function(response) {
+                $scope.totalOrders = response.length;
+                $scope.orders = response;
                 listLoader.removeClass("active");
+            }, function (response) {
             });
         } else {
-            Restangular.one("orders").get({"page": pageNumber}).then( function(response) {
-                $scope.totalOrders = response.count;
-                $scope.orders = response.results;
+            Restangular.one("orders").get().then( function(response) {
+                $scope.totalOrders = response.length;
+                $scope.orders = response;
                 listLoader.removeClass("active");
             });
         }
@@ -342,7 +339,6 @@ module.controller(
                 $rootScope.addMessage("Order successfully updated! Have a great day!");
                 $scope.back();
             }).error( function( response) {
-                console.log(response);
                 closeModal("uploadProgressBarModal");
                 $scope.error_messages = response;
                 $timeout( function() {
