@@ -15,7 +15,7 @@ module.config(['$routeProvider', '$locationProvider',
             })
             .when('/orders/detail/:orderId', {
                 templateUrl: 'order-templates/detail.html',
-                controller: "DetailOrderController",
+                controller: "DetailOrderController"
             })
             .when('/orders/create', {
                 templateUrl: 'order-templates/create.html',

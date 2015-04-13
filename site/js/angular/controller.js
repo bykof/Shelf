@@ -17,7 +17,7 @@ module.controller("BodyController", function($scope, $location, Restangular, $ro
                     $.cookie("djangocookie_username", loginModel.username, { expires: 1, path: '/'});
                     $.cookie("djangocookie", token, { expires: 1, path: '/'});
                     Restangular.setDefaultHeaders({"Authorization": "Token " + token});
-                    $("[name='password']").val("");
+                    $scope.loginModel = null;
                     $("#login-form-container").hide();
                     $("#page-content").show();
                     $route.reload();
