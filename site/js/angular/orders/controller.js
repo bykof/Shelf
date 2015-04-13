@@ -18,6 +18,7 @@ function initDatePicker() {
             }
         },
         timepicker:false,
+        scrollInput:false,
         format:'d.m.Y'
     });
 }
