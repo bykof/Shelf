@@ -83,24 +83,33 @@ class OrderViewSet(ModelViewSet):
             return OrderSerializer
 
 
-@api_view(['POST'])
-def create_order_with_documents(request):
+@api_view(['POST', 'PUT', 'PATCH'])
+def create_or_update_order_with_documents(request):
+    if request.method in ['POST', 'PUT', 'PATCH']:
+        data = json.loads(request.DATA['data'])
+        if 'id' in data:
+            order = Order.objects.get(id=data['id'])
+            print 'order: {}'.format(order)
+            order_deserializer = OrderSerializer(order, data=json.loads(request.DATA['data']))
+            print 'order_deserializer: {}'.format(order_deserializer)
+        else:
+            order_deserializer = OrderSerializer(data=json.loads(request.DATA['data']))
 
-    if request.method == 'POST':
-        new_order_deserializer = OrderSerializer(data=json.loads(request.DATA['data']))
-
-        if new_order_deserializer.is_valid(raise_exception=True):
-            new_order = new_order_deserializer.save()
+        if order_deserializer.is_valid(raise_exception=True):
+            print 'is valid'
+            order = order_deserializer.save()
+            print 'new order: {}'.format(order)
             for temp_file in request.FILES.getlist('file'):
 
                 new_invoice_document_deserializer = InvoiceDocumentSerializer(
                     data={
-                        'order': new_order.id,
+                        'order': order.id,
                         'invoice_file': temp_file,
                     },
                 )
 
                 if new_invoice_document_deserializer.is_valid(raise_exception=True):
+                    print 'new_invocie_docuemtn'
                     new_invoice_document_deserializer.save()
 
     return Response(status=200)

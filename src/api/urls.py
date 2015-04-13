@@ -4,7 +4,7 @@ from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
 
 from .views import OrderCategoryViewSet, ArticleViewSet, PaymentMethodViewSet, SupplierViewSet, OrderViewSet
-from .views import UserViewSet, InvoiceDocumentViewSet, create_order_with_documents
+from .views import UserViewSet, InvoiceDocumentViewSet, create_or_update_order_with_documents
 
 router = DefaultRouter()
 router.register(r'users', UserViewSet)
@@ -19,5 +19,5 @@ router.register(r'invoice-documents', InvoiceDocumentViewSet)
 urlpatterns = router.urls
 urlpatterns += [
     url(r'^api-token-auth/', views.obtain_auth_token),
-    url(r'^create-order-with-documents/', create_order_with_documents)
+    url(r'^create-or-update-order-with-documents/', create_or_update_order_with_documents)
 ]

@@ -4,6 +4,10 @@ from .models import OrderCategory, Article, PaymentMethod, \
     Supplier, Order, InvoiceDocument
 
 
+class BookingModel(admin.ModelAdmin):
+    fields = ('created',)
+
+
 @admin.register(OrderCategory)
 class OrderCategoryAdmin(admin.ModelAdmin):
     pass

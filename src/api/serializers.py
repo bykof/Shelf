@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, Serializer, DateTimeField, CharField
 
 from taggit_serializer.serializers import TagListSerializerField, TaggitSerializer
 
@@ -54,19 +54,23 @@ class OrderSerializer(TaggitSerializer, ModelSerializer):
         model = Order
 
 
+class InvoiceDocumentSerializer(ModelSerializer):
+    invoice_file_filename = CharField(required=False)
+
+    class Meta:
+        model = InvoiceDocument
+
+
 class ReadOrderSerializer(ModelSerializer):
+    created = DateTimeField()
+    updated = DateTimeField()
     bought_by = UserSerializer()
     category = OrderCategorySerializer()
     article = ArticleSerializer()
     supplier = SupplierSerializer()
     payment_method = PaymentMethodSerializer()
     tags = TagListSerializerField()
+    invoice_documents = InvoiceDocumentSerializer(many=True)
 
     class Meta:
         model = Order
-
-
-class InvoiceDocumentSerializer(ModelSerializer):
-    class Meta:
-        model = InvoiceDocument
-
