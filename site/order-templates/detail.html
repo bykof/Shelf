@@ -13,6 +13,10 @@
             <div class="row">
                 <div class="sixteen wide column">
                     <div class="ui form">
+                        <div class="field">
+                            <label>Created: {{ order.created | date : 'd.MM.yyyy H:mm' }}</label>
+                            <label>Last Updated: {{ order.updated | date : 'd.MM.yyyy H:mm' }}</label>
+                        </div>
                         <div class="two fields">
                             <div class="field">
                                 <label>Bought on</label>
@@ -178,31 +182,39 @@
                             </div>
                         </div>
                         <div class="ui divider"></div>
-                        <div class="field">
+                        <div class="field" ng-show="!!order.invoice_documents.length">
                             <div class="field">
                                 <label>Uploaded Files:</label>
-                                <div class="ui list">
-                                    <div class="item" ng-hide="order.invoice_documents">
-                                        <p>No documents were uploaded!</p>
-                                    </div>
-                                    <div class="item" ng-repeat="invoice_document in order.invoice_documents">
-                                        <i class="right triangle icon"></i>
-                                        <div class="content">
-                                            <div class="ui three column grid">
-                                                <div class="column">
-                                                    Document:
-                                                    <a href="{{ invoice_document.invoice_file }}">
-                                                        {{invoice_document.invoice_file_filename}}
-                                                    </a>
-                                                </div>
-                                                <div class="column">
-                                                    Uploaded on: {{ invoice_document.created | date : 'd.MM.yyyy' }}
-                                                </div>
-                                                <div class="column"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <table class="ui table">
+                                    <thead>
+                                        <tr>
+                                            <th>File</th>
+                                            <th>Uploaded on</th>
+                                            <th>Uploaded by</th>
+                                            <th>Delete</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="invoice_document in order.invoice_documents">
+                                            <td>
+                                                <a href="{{ invoice_document.invoice_file }}">
+                                                    {{invoice_document.invoice_file_filename}}
+                                                </a>
+                                            </td>
+                                            <td>
+                                                {{ invoice_document.created | date : 'd.MM.yyyy' }}
+                                            </td>
+                                            <td>
+                                                Niemanden
+                                            </td>
+                                            <td>
+                                                <a>
+                                                    <i class="icon remove"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
