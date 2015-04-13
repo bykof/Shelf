@@ -22,6 +22,21 @@ function initDatePicker() {
     });
 }
 
+function closeModal(modalId) {
+    $('#' + modalId).modal("hide");
+}
+
+function openModal(modalId) {
+    $('#' + modalId).modal(
+        {
+            closable  : false,
+            onApprove : function() {
+                return false;
+            }
+        }
+    ).modal("show");
+}
+
 module.controller("OrderListController", function($rootScope, $scope, $timeout, Restangular, loaderTexts) {
     if (!$.cookie("djangocookie")) {
         return
@@ -130,7 +145,7 @@ module.controller(
         }
 
         $upload.upload({
-            url: GlobalService.apiServer + "/create-order-with-documents/",
+            url: GlobalService.apiServer + "/create-or-update-order-with-documents/",
             file: files,
             method: "POST",
             headers: {"Authorization": "Token " + $.cookie("djangocookie")},
@@ -153,21 +168,6 @@ module.controller(
             $scope.newOrder["invoice_documents"] = files;
         });
     };
-
-    function openModal(modalId) {
-        $('#' + modalId).modal(
-            {
-                closable  : false,
-                onApprove : function() {
-                    return false;
-                }
-            }
-        ).modal("show");
-    }
-
-    function closeModal(modalId) {
-        $('#' + modalId).modal("hide");
-    }
 
     function formatTime(to_server) {
         var newOrder = $scope.newOrder;
@@ -244,43 +244,111 @@ module.controller("CreatePaymentMethodController", function($rootScope, $scope, 
     }
 });
 
-module.controller("DetailOrderController", function($rootScope, $scope, Restangular, $routeParams, $timeout) {
-    Restangular.one("orders").one($routeParams.orderId).get().then( function(response) {
-        $scope.order = response;
-        formatTime(false);
-        $timeout( function(){
-            $('.dropdown').dropdown("set selected");
-        }, 0);
-    });
+module.controller(
+    "DetailOrderController",
+    function($rootScope, $scope, Restangular, $routeParams, $timeout, $location, $upload, GlobalService) {
 
-    $scope.$on('$viewContentLoaded', function(){
-        fillChoices();
-        initDatePicker();
-    });
+        Restangular.one("orders").one($routeParams.orderId).get().then( function(response) {
+            $scope.order = response;
+            formatTime(false);
+            $timeout( function(){
+                $('.dropdown').dropdown("set selected");
+            }, 0);
+        });
 
-    function formatTime(to_server) {
-        var order = $scope.order;
+        $rootScope.$on("newDataCreated", function() {
+            fillChoices();
+        });
 
-        if (to_server) {
-            order.bought_on = moment(order.bought_on, "DD.MM.YYYY").format();
-        } else{
-            $scope.order.bought_on = moment($scope.order.bought_on).format("DD.MM.YYYY");
-        }
+        $scope.back = function() {
+            $location.path("/orders/list");
+        };
 
+        $scope.$on('$viewContentLoaded', function(){
+            fillChoices();
+            initDatePicker();
+        });
 
-        if (order.delivery_received_on) {
+        $scope.createArticle = function() {
+            openModal("createArticleModal");
+        };
+
+        $scope.createCategory = function() {
+            openModal("createCategoryModal");
+        };
+
+        $scope.createSupplier = function() {
+            openModal("createSupplierModal");
+        };
+
+        $scope.createPaymentMethod = function() {
+            openModal("createPaymentMethodModal");
+        };
+
+        function formatTime(to_server) {
+            var order = $scope.order;
+
             if (to_server) {
-                order.delivery_received_on = moment(order.delivery_received_on, "DD.MM.YYYY").format();
-            } else {
-                order.delivery_received_on = moment(order.delivery_received_on).format("DD.MM.YYYY");
+                order.bought_on = moment(order.bought_on, "DD.MM.YYYY").format();
+            } else{
+                $scope.order.bought_on = moment($scope.order.bought_on).format("DD.MM.YYYY");
+            }
+
+
+            if (order.delivery_received_on) {
+                if (to_server) {
+                    order.delivery_received_on = moment(order.delivery_received_on, "DD.MM.YYYY").format();
+                } else {
+                    order.delivery_received_on = moment(order.delivery_received_on).format("DD.MM.YYYY");
+                }
             }
         }
-    }
 
-    function fillChoices () {
-        Restangular.one("orders").options().then( function (response) {
-            $scope.postActions = response.actions.POST;
-        });
-        $('.dropdown').dropdown("refresh");
-    }
+        function fillChoices () {
+            Restangular.one("orders").options().then( function (response) {
+                $scope.postActions = response.actions.POST;
+            });
+            $('.dropdown').dropdown("refresh");
+        }
+
+        $scope.saveOrder = function () {
+            var order = $scope.order;
+            formatTime(true);
+
+            if (!order.tags) {
+                order.tags = [];
+            }
+
+            var files = $scope.order.new_invoice_documents;
+            delete $scope.order["new_invoice_documents"];
+
+            if (files && files.length > 0) {
+                openModal("uploadProgressBarModal");
+            }
+
+            $upload.upload({
+                url: GlobalService.apiServer + "/create-or-update-order-with-documents/",
+                file: files,
+                method: "POST",
+                headers: {"Authorization": "Token " + $.cookie("djangocookie")},
+                data: order
+            }).progress(function(evt) {
+                $("#upload-progress").progress({
+                    percent: parseInt(100.0 * evt.loaded / evt.total)
+                });
+            }).success(function(data, status, headers, config) {
+                closeModal("uploadProgressBarModal");
+                $rootScope.addMessage("Order successfully updated! Have a great day!");
+                $scope.back();
+            }).error( function( response) {
+                console.log(response);
+                closeModal("uploadProgressBarModal");
+                $scope.error_messages = response;
+                $timeout( function() {
+                    $("div[data-content]").popup("show", {"movePopup": false});
+                });
+                formatTime(false);
+                $scope.order["new_invoice_documents"] = files;
+            });
+        };
 });

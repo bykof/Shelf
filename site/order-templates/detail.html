@@ -36,14 +36,14 @@
                         <div class="two fields">
                             <div class="field">
                                 <label>Purpose</label>
-                                <input ng-model="newOrder.purpose" type="text" placeholder="Purpose" value="{{ order.purpose }}">
+                                <input ng-model="order.purpose" type="text" placeholder="Purpose" value="{{ order.purpose }}">
                             </div>
                             <div class="field">
                                 <label>Article</label>
                                 <div class="fields">
                                     <div class="twelve wide field"
                                          data-content="{{ error_messages.article[0] }}">
-                                        <select ng-model="newOrder.article" class="ui dropdown search">
+                                        <select ng-model="order.article" class="ui dropdown search">
                                             <option value=""></option>
                                             <option value="{{ article.value }}"
                                                     ng-repeat="article in postActions.article.choices"
@@ -65,7 +65,7 @@
                                 <label>Category</label>
                                 <div class="fields">
                                     <div class="twelve wide field" data-content="{{ error_messages.category[0] }}">
-                                        <select ng-model="newOrder.category" class="ui dropdown">
+                                        <select ng-model="order.category" class="ui dropdown">
                                             <option value=""></option>
                                             <option value="{{ category.value }}"
                                                     ng-repeat="category in postActions.category.choices"
@@ -85,7 +85,7 @@
                                 <label>Supplier</label>
                                 <div class="fields">
                                     <div class="twelve wide field" data-content="{{ error_messages.supplier[0] }}">
-                                        <select ng-model="newOrder.supplier" class="ui dropdown">
+                                        <select ng-model="order.supplier" class="ui dropdown">
                                             <option value=""></option>
                                             <option value="{{ supplier.value }}"
                                                     ng-repeat="supplier in postActions.supplier.choices"
@@ -113,7 +113,7 @@
                                 <label>Payment Method</label>
                                 <div class="fields">
                                     <div class="twelve wide field" data-content="{{ error_messages.payment_method[0] }}">
-                                        <select ng-model="newOrder.payment_method" class="ui dropdown">
+                                        <select ng-model="order.payment_method" class="ui dropdown">
                                             <option value=""></option>
                                             <option value="{{ payment_method.value }}"
                                                     ng-repeat="payment_method in postActions.payment_method.choices"
@@ -133,19 +133,20 @@
                         <div class="field">
                             <label>Tags (seperated by comma)</label>
                             <div class="eight wide field">
-                                <input ng-model="newOrder.tags" ng-init="[]" ng-list=", " type="text">
+                                <input ng-model="order.tags" ng-init="[]" ng-list=", " type="text" value="order.tags">
                             </div>
                         </div>
                         <div class="two fields">
                             <div class="field">
                                 <label>Delivery Received On</label>
                                 <div class="field">
-                                    <input class="datetimepicker" type="text" placeholder="optional" value="{{ order.delivery_received_on }}">
+                                    <input class="datetimepicker" ng-model="order.delivery_received_on" type="text"
+                                           placeholder="optional" value="{{ order.delivery_received_on }}">
                                 </div>
                             </div>
                             <div class="field">
                                 <label>Delivery Received By</label>
-                                <select ng-model="newOrder.delivery_received_by" class="ui search dropdown">
+                                <select ng-model="order.delivery_received_by" class="ui search dropdown">
                                     <option value=""></option>
                                     <option value="{{ delivery_received_by.value }}"
                                             ng-repeat="delivery_received_by in postActions.delivery_received_by.choices"
@@ -155,17 +156,51 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="two fields">
+                        <div class="field">
                             <div class="field">
                                 <label>Invoice PDF</label>
-                                <div class="ui button" ng-file-select ng-model="newOrder.invoice_documents"
-                                     ng-multiple="true">
-                                    Upload PDFs
+                                <div class="ui middle aligned relaxed fitted stackable grid">
+                                    <div class="three wide column">
+                                        <div class="ui button" ng-file-select ng-model="order.new_invoice_documents"
+                                             ng-multiple="true">
+                                            Upload PDFs
+                                        </div>
+                                    </div>
+                                    <div class="thirteen wide column">
+                                        <span ng-show="order.new_invoice_documents.length > 0">
+                                            Files:
+                                            <div class="ui label" ng-repeat="invoice_document in order.new_invoice_documents">
+                                                {{ invoice_document.name }}
+                                            </div>
+                                        </span>
+                                    </div>
                                 </div>
-                                <div ng-show="newOrder.invoice_documents.length > 0">
-                                    Files:
-                                    <div class="ui label" ng-repeat="invoice_document in newOrder.invoice_documents">
-                                        {{ invoice_document.name }}
+                            </div>
+                        </div>
+                        <div class="ui divider"></div>
+                        <div class="field">
+                            <div class="field">
+                                <label>Uploaded Files:</label>
+                                <div class="ui list">
+                                    <div class="item" ng-hide="order.invoice_documents">
+                                        <p>No documents were uploaded!</p>
+                                    </div>
+                                    <div class="item" ng-repeat="invoice_document in order.invoice_documents">
+                                        <i class="right triangle icon"></i>
+                                        <div class="content">
+                                            <div class="ui three column grid">
+                                                <div class="column">
+                                                    Document:
+                                                    <a href="{{ invoice_document.invoice_file }}">
+                                                        {{invoice_document.invoice_file_filename}}
+                                                    </a>
+                                                </div>
+                                                <div class="column">
+                                                    Uploaded on: {{ invoice_document.created | date : 'd.MM.yyyy' }}
+                                                </div>
+                                                <div class="column"></div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -176,7 +211,7 @@
             <div class="row">
                 <div class="sixteen wide column right aligned">
                     <div class="ui red button" ng-click="back()">Cancel</div>
-                    <div class="ui green button" ng-click="createNewOrder()">Save</div>
+                    <div class="ui green button" ng-click="saveOrder()">Save</div>
                 </div>
             </div>
         </div>
