@@ -92,16 +92,12 @@ def create_or_update_order_with_documents(request):
         data = json.loads(request.DATA['data'])
         if 'id' in data:
             order = Order.objects.get(id=data['id'])
-            print 'order: {}'.format(order)
             order_deserializer = OrderSerializer(order, data=json.loads(request.DATA['data']))
-            print 'order_deserializer: {}'.format(order_deserializer)
         else:
             order_deserializer = OrderSerializer(data=json.loads(request.DATA['data']))
 
         if order_deserializer.is_valid(raise_exception=True):
-            print 'is valid'
             order = order_deserializer.save()
-            print 'new order: {}'.format(order)
             for temp_file in request.FILES.getlist('file'):
 
                 new_invoice_document_deserializer = InvoiceDocumentSerializer(
@@ -112,7 +108,6 @@ def create_or_update_order_with_documents(request):
                 )
 
                 if new_invoice_document_deserializer.is_valid(raise_exception=True):
-                    print 'new_invocie_docuemtn'
                     new_invoice_document_deserializer.save()
 
     return Response(status=200)
