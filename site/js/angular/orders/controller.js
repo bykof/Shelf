@@ -39,10 +39,6 @@ function openModal(modalId) {
 }
 
 module.controller("OrderListController", function($rootScope, $scope, $timeout, Restangular, loaderTexts) {
-    if (!$.cookie("djangocookie")) {
-        return;
-    }
-
     getOrders();
 
     $scope.clearOrderSearch = function() {
@@ -229,7 +225,6 @@ module.controller(
             $scope.order = response;
             formatTime(false);
             $timeout( function(){
-                fillChoices();
                 $('.dropdown').dropdown("set selected");
             }, 50);
         });

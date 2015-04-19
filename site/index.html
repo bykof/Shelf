@@ -32,9 +32,12 @@
 
         <!-- ORDERS -->
         <script src="js/angular/orders/controller.js"></script>
+
+		<!-- INVOICES -->
+		<script src="js/angular/invoices/controller.js"></script>
 	</head>
 	<body ng-controller="BodyController">
-		<div class="ui stackable center aligned page grid" id="login-form-container">
+		<div class="ui stackable center aligned page grid hide-element" id="login-form-container">
 			<div class="column eight wide">
 				<h1>Welcome to Shelf!</h1>
 				<div class="label center aligned">
@@ -61,7 +64,7 @@
 				</div>
             </div>
         </div>
-		<div class="ui page grid" id="page-content">
+		<div class="ui page grid hide-element" id="page-content">
 			<div class="sixteen wide column">
 				<div class="ui inline info-message-nag nag">
 					<span class="title">

@@ -5,3 +5,7 @@ body {
 .right-align {
     text-align: right;
 }
+
+.hide {
+    display: none;
+}
