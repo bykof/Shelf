@@ -30,14 +30,13 @@ class OrderCategory(BookingModel):
 
 class Article(BookingModel):
     name = models.CharField(max_length=255)
-    price = models.DecimalField(max_digits=8, decimal_places=2)
 
     class Meta:
         verbose_name = _('Article')
         verbose_name_plural = _('Articles')
 
     def __unicode__(self):
-        return u'{} - {}'.format(self.name, self.price)
+        return u'{}'.format(self.name)
 
 
 class PaymentMethod(BookingModel):
@@ -75,6 +74,8 @@ class Order(BookingModel):
     delivery_received_on = models.DateTimeField(null=True, blank=True)
     delivery_received_by = models.ForeignKey(User, null=True, blank=True, related_name='received_orders')
     tags = TaggableManager(blank=True)
+    article_quantity = models.IntegerField(default=1)
+    amount = models.FloatField()
 
     class Meta:
         verbose_name = _('Order')

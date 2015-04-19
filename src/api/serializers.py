@@ -56,6 +56,7 @@ class OrderSerializer(TaggitSerializer, ModelSerializer):
 
 class InvoiceDocumentSerializer(ModelSerializer):
     invoice_file_filename = CharField(required=False)
+    order = OrderSerializer()
 
     class Meta:
         model = InvoiceDocument
