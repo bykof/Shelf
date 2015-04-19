@@ -21,7 +21,8 @@
                     <div class="ui form">
                         <div class="ui icon input">
                             <input type="text" placeholder="Search orders..." ng-model="orderSearch" ng-init="">
-                            <i class="search icon" id="search-delete-icon" style="cursor: pointer"
+                            <i class="icon" ng-class="{true: 'search', false: 'remove'}[!orderSearch]"
+                               id="search-delete-icon" style="cursor: pointer"
                                ng-click="orderSearch = ''"></i>
                         </div>
                     </div>
@@ -37,28 +38,26 @@
                         <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Bought on</th>
                             <th>Bought by</th>
-                            <th>Category</th>
-                            <th>Supplier</th>
-                            <th>Tags</th>
+                            <th>Bought on</th>
+                            <th>Article</th>
                             <th>Purpose</th>
+                            <th>Received by</th>
+                            <th>Received on</th>
                             <th>Details</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr dir-paginate="order in orders | filter: orderSearch | itemsPerPage: 25">
                             <td>{{ order.id }}</td>
-                            <td>{{ order.bought_on | date : 'dd.MM.yyyy' }}</td>
                             <td>{{ order.bought_by.first_name }} {{ order.bought_by.last_name }}</td>
-                            <td>{{ order.category.name }}</td>
-                            <td>{{ order.supplier.name }}</td>
-                            <td>
-                                <a ng-repeat="tag in order.tags" class="ui horizontal label small">{{ tag }}</a>
-                            </td>
-                            <td>
-                                {{ order.purpose }}
-                            </td>
+                            <td>{{ order.bought_on | date : 'dd.MM.yyyy' }}</td>
+                            <td>{{ order.article.name }}</td>
+                            <td>{{ order.purpose }}</td>
+                            <td ng-show="order.received_by">{{ order.reveived_by }}</td>
+                            <td ng-show="!order.received_by"> - </td>
+                            <td ng-show="order.received_on">{{ order.reveived_on | date : 'dd.MM.yyyy' }}</td>
+                            <td ng-show="!order.received_on"> - </td>
                             <td class="center aligned">
                                 <a href="/orders/detail/{{ order.id }}">
                                     <i class="icon write"></i>
