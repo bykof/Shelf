@@ -39,19 +39,36 @@
                                 <input ng-model="newOrder.purpose" type="text" placeholder="Purpose">
                             </div>
                             <div class="field">
-                                <label>Article</label>
                                 <div class="fields">
-                                    <div class="twelve wide field"
-                                         data-content="{{ error_messages.article[0] }}">
-                                        <select ng-model="newOrder.article" class="ui dropdown search">
-                                            <option value=""></option>
-                                            <option value="{{ article.value }}"
-                                                    ng-repeat="article in postActions.article.choices">
-                                                {{ article.display_name }}
-                                            </option>
-                                        </select>
+                                    <div class="two wide field">
+                                        <label>Quantity</label>
+                                        <div class="field">
+                                            <input type="number" ng-init="newOrder.article_quantity = 1" min="1"
+                                                   data-content="{{ error_messages.amount[0] }}" ng-model="newOrder.article_quantity">
+                                        </div>
+                                    </div>
+                                    <div class="seven wide field">
+                                        <label>Article</label>
+                                        <div class="field"
+                                             data-content="{{ error_messages.article[0] }}">
+                                            <select ng-model="newOrder.article" class="ui dropdown search">
+                                                <option value=""></option>
+                                                <option value="{{ article.value }}"
+                                                        ng-repeat="article in postActions.article.choices">
+                                                    {{ article.display_name }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="three wide field">
+                                        <label>Amount</label>
+                                        <div class="field">
+                                            <input type="number" ng-init="newOrder.amount = 1.00" min="0" step="0.01"
+                                                   data-content="{{ error_messages.amount[0] }}" ng-model="newOrder.amount">
+                                        </div>
                                     </div>
                                     <div class="four wide field right-align">
+                                        <br>
                                         <div class="ui button" ng-click="createArticle()">
                                             <i class="plus icon"></i> Create
                                         </div>
