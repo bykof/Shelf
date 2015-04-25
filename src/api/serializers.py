@@ -1,9 +1,9 @@
-from rest_framework.serializers import ModelSerializer, Serializer, DateTimeField, CharField
+from rest_framework.serializers import ModelSerializer, DateTimeField, CharField
 
 from taggit_serializer.serializers import TagListSerializerField, TaggitSerializer
 
 from users.models import User
-from booking.models import OrderCategory, Article, PaymentMethod, Supplier, Order, InvoiceDocument
+from booking.models import OrderCategory, Article, PaymentMethod, Supplier, Order, InvoiceDocument, OrderItem
 
 
 """
@@ -61,14 +61,17 @@ class InvoiceDocumentSerializer(ModelSerializer):
     class Meta:
         model = InvoiceDocument
 
+class OrderItemSerializer(ModelSerializer):
+    order = OrderSerializer()
+    article = ArticleSerializer()
+
+    class Meta:
+        model = OrderItem
 
 class ReadOrderSerializer(ModelSerializer):
-    created = DateTimeField()
-    updated = DateTimeField()
     bought_by = UserSerializer()
     delivery_received_by = UserSerializer()
     category = OrderCategorySerializer()
-    article = ArticleSerializer()
     supplier = SupplierSerializer()
     payment_method = PaymentMethodSerializer()
     tags = TagListSerializerField()

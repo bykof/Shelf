@@ -66,7 +66,6 @@ class Order(BookingModel):
     bought_by = models.ForeignKey(User, related_name='bought_orders')
     bought_on = models.DateTimeField(default=datetime.datetime.now, blank=True)
     category = models.ForeignKey(OrderCategory, related_name='orders')
-    article = models.ForeignKey(Article, related_name='orders')
     supplier = models.ForeignKey(Supplier, related_name='orders')
     purpose = models.CharField(null=True, blank=True, max_length=255)
     payment_method = models.ForeignKey(PaymentMethod, related_name='orders')
@@ -74,8 +73,6 @@ class Order(BookingModel):
     delivery_received_on = models.DateTimeField(null=True, blank=True)
     delivery_received_by = models.ForeignKey(User, null=True, blank=True, related_name='received_orders')
     tags = TaggableManager(blank=True)
-    article_quantity = models.IntegerField(default=1)
-    amount = models.FloatField()
 
     class Meta:
         verbose_name = _('Order')
@@ -87,6 +84,16 @@ class Order(BookingModel):
 
     def __unicode__(self):
         return _(u'Article {} bought on {}'.format(self.article, self.bought_on))
+
+
+class OrderItem(BookingModel):
+    order = models.ForeignKey(Order, related_name='order_items')
+    quantity = models.IntegerField(default=1)
+    amount = models.FloatField()
+    article = models.ForeignKey(Article, related_name='order_items')
+
+    def __unicode__(self):
+        return _(u'{}: {}'.format(self.order, self.article))
 
 
 class InvoiceDocument(BookingModel):

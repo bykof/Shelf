@@ -6,10 +6,11 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from users.models import User
-from booking.models import OrderCategory, Article, PaymentMethod, Supplier, Order, InvoiceDocument
+from booking.models import OrderCategory, Article, PaymentMethod, Supplier, Order, InvoiceDocument, OrderItem
 
 from .serializers import OrderCategorySerializer, ArticleSerializer, PaymentMethodSerializer, SupplierSerializer
 from .serializers import OrderSerializer, ReadOrderSerializer, UserSerializer, InvoiceDocumentSerializer
+from .serializers import OrderItemSerializer
 
 
 class UserViewSet(ModelViewSet):
@@ -47,6 +48,11 @@ class InvoiceDocumentViewSet(ModelViewSet):
 class SupplierViewSet(ModelViewSet):
     queryset = Supplier.objects.all()
     serializer_class = SupplierSerializer
+
+
+class OrderItemViewSet(ModelViewSet):
+    queryset = OrderItem.objects.all().select_related()
+    serializer_class = OrderItemSerializer
 
 
 class OrderViewSet(ModelViewSet):

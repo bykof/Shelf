@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .models import OrderCategory, Article, PaymentMethod, \
-    Supplier, Order, InvoiceDocument
+    Supplier, Order, InvoiceDocument, OrderItem
 
 
 class BookingModel(admin.ModelAdmin):
@@ -35,4 +35,9 @@ class OrderAdmin(admin.ModelAdmin):
 
 @admin.register(InvoiceDocument)
 class InvoiceDocumentAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(OrderItem)
+class OrderItemAdmin(admin.ModelAdmin):
     pass
