@@ -83,16 +83,15 @@ module.controller(
             fillChoices();
         });
 
-        Restangular.one("users").get({"search": $.cookie("djangocookie_username")}).then( function(response) {
-            $timeout( function(){
-                $scope.newOrder.bought_by = response[0].id;
-                $('.dropdown').dropdown("set selected");
-            }, 100);
-        });
+        userAutofill();
 
         $rootScope.$on("newDataCreated", function() {
             fillChoices();
         });
+
+        $scope.fillUser = function() {
+            userAutofill();
+        };
 
         $scope.back = function() {
             $location.path("/orders/list");
@@ -178,6 +177,15 @@ module.controller(
                 $scope.postActions = response.actions.POST;
             });
             $('select.dropdown').dropdown("set selected");
+        }
+
+        function userAutofill() {
+            Restangular.one("users").get({"search": $.cookie("djangocookie_username")}).then( function(response) {
+                $timeout( function(){
+                    $scope.newOrder.bought_by = response[0].id;
+                    $('.dropdown').dropdown("set selected");
+                }, 100);
+            });
         }
     }
 );

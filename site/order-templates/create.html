@@ -12,6 +12,7 @@
         <div class="ui grid">
             <div class="row">
                 <div class="sixteen wide column">
+                    <div class="ui horizontal divider">Order Information</div>
                     <div class="ui form">
                         <div class="two fields">
                             <div class="field">
@@ -110,6 +111,35 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="ui horizontal divider">Articles</div>
+                        <div class="ui form">
+                            <div class="fields">
+                                <div class="two wide field">
+                                    <label>Quantity</label>
+                                    <input type="number" min="0" value="1">
+                                </div>
+                                <div class="ten wide field">
+                                    <label>Article</label>
+                                    <select ng-model="newOrderItem.article" class="ui dropdown">
+                                        <option value="{{ payment_method.value }}"
+                                                ng-repeat="payment_method in postActions.payment_method.choices">
+                                            {{ payment_method.display_name }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="two wide field">
+                                    <label>&nbsp;</label>
+                                    <div class="ui button" ng-click="createPaymentMethod()">
+                                        <i class="plus icon"></i> Create
+                                    </div>
+                                </div>
+                                <div class="two wide field">
+                                    <label>Amount</label>
+                                    <input type="number" min="0">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui horizontal divider">Other Stuff</div>
                         <div class="ui accordion">
                             <div class="title">
                                 <i class="dropdown icon"></i>
