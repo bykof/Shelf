@@ -70,104 +70,117 @@ module.controller("OrderListController", function($rootScope, $scope, $timeout, 
 module.controller(
     "CreateOrderController",
     function($rootScope, $scope, Restangular, $timeout, $location, $upload, GlobalService) {
-    $scope.$on('$viewContentLoaded', function(){
-        $scope.newOrder = {"bought_on": moment().format("DD.MM.YYYY"), "invoice_documents": []};
-        initDatePicker();
-        $('select.dropdown').dropdown();
-        $('.ui.accordion').accordion();
-        fillChoices();
-    });
 
-    $rootScope.$on("newDataCreated", function() {
-        fillChoices();
-    });
+        $scope.$on('$viewContentLoaded', function(){
+            $scope.newOrder = {
+                "bought_on": moment().format("DD.MM.YYYY"),
+                "invoice_documents": []
+            };
 
-    $scope.back = function() {
-        $location.path("/orders/list");
-    };
-
-    $scope.createArticle = function() {
-        openModal("createArticleModal");
-    };
-
-    $scope.createCategory = function() {
-        openModal("createCategoryModal");
-    };
-
-    $scope.createSupplier = function() {
-        openModal("createSupplierModal");
-    };
-
-    $scope.createPaymentMethod = function() {
-        openModal("createPaymentMethodModal");
-    };
-
-    $scope.createNewOrder = function () {
-        var newOrder = $scope.newOrder;
-        formatTime(true);
-
-        if (!newOrder.tags) {
-            newOrder.tags = [];
-        }
-
-        var files = $scope.newOrder.invoice_documents;
-        delete $scope.newOrder["invoice_documents"];
-
-        if (files && files.length > 0) {
-            openModal("uploadProgressBarModal");
-        }
-
-        $upload.upload({
-            url: GlobalService.apiServer + "/create-or-update-order-with-documents/",
-            file: files,
-            method: "POST",
-            headers: {"Authorization": "Token " + $.cookie("djangocookie")},
-            data: newOrder
-        }).progress(function(evt) {
-            $("#upload-progress").progress({
-                percent: parseInt(100.0 * evt.loaded / evt.total)
-            });
-        }).success(function(data, status, headers, config) {
-            closeModal("uploadProgressBarModal");
-            $rootScope.addMessage("Order successfully created! Have a great day!");
-            $scope.back();
-        }).error( function( response) {
-            closeModal("uploadProgressBarModal");
-            $scope.error_messages = response;
-            $timeout( function() {
-                $("div[data-content]").popup("show", {"movePopup": false});
-            });
-            formatTime(false);
-            $scope.newOrder["invoice_documents"] = files;
+            initDatePicker();
+            $('select.dropdown').dropdown();
+            $('.ui.accordion').accordion();
+            fillChoices();
         });
-    };
 
-    function formatTime(to_server) {
-        var newOrder = $scope.newOrder;
+        Restangular.one("users").get({"search": $.cookie("djangocookie_username")}).then( function(response) {
+            $timeout( function(){
+                $scope.newOrder.bought_by = response[0].id;
+                $('.dropdown').dropdown("set selected");
+            }, 100);
+        });
 
-        if (to_server) {
-            newOrder.bought_on = moment(newOrder.bought_on, "DD.MM.YYYY").format();
-        } else{
-            $scope.newOrder.bought_on = moment($scope.newOrder.bought_on).format("DD.MM.YYYY");
-        }
+        $rootScope.$on("newDataCreated", function() {
+            fillChoices();
+        });
 
+        $scope.back = function() {
+            $location.path("/orders/list");
+        };
 
-        if (newOrder.delivery_received_on) {
+        $scope.createArticle = function() {
+            openModal("createArticleModal");
+        };
+
+        $scope.createCategory = function() {
+            openModal("createCategoryModal");
+        };
+
+        $scope.createSupplier = function() {
+            openModal("createSupplierModal");
+        };
+
+        $scope.createPaymentMethod = function() {
+            openModal("createPaymentMethodModal");
+        };
+
+        $scope.createNewOrder = function () {
+            var newOrder = $scope.newOrder;
+            formatTime(true);
+
+            if (!newOrder.tags) {
+                newOrder.tags = [];
+            }
+
+            var files = $scope.newOrder.invoice_documents;
+            delete $scope.newOrder["invoice_documents"];
+
+            if (files && files.length > 0) {
+                openModal("uploadProgressBarModal");
+            }
+
+            $upload.upload({
+                url: GlobalService.apiServer + "/create-or-update-order-with-documents/",
+                file: files,
+                method: "POST",
+                headers: {"Authorization": "Token " + $.cookie("djangocookie")},
+                data: newOrder
+            }).progress(function(evt) {
+                $("#upload-progress").progress({
+                    percent: parseInt(100.0 * evt.loaded / evt.total)
+                });
+            }).success(function(data, status, headers, config) {
+                closeModal("uploadProgressBarModal");
+                $rootScope.addMessage("Order successfully created! Have a great day!");
+                $scope.back();
+            }).error( function( response) {
+                closeModal("uploadProgressBarModal");
+                $scope.error_messages = response;
+                $timeout( function() {
+                    $("div[data-content]").popup("show", {"movePopup": false});
+                });
+                formatTime(false);
+                $scope.newOrder["invoice_documents"] = files;
+            });
+        };
+
+        function formatTime(to_server) {
+            var newOrder = $scope.newOrder;
+
             if (to_server) {
-                newOrder.delivery_received_on = moment(newOrder.delivery_received_on, "DD.MM.YYYY").format();
-            } else {
-                newOrder.delivery_received_on = moment(newOrder.delivery_received_on).format("DD.MM.YYYY");
+                newOrder.bought_on = moment(newOrder.bought_on, "DD.MM.YYYY").format();
+            } else{
+                $scope.newOrder.bought_on = moment($scope.newOrder.bought_on).format("DD.MM.YYYY");
+            }
+
+
+            if (newOrder.delivery_received_on) {
+                if (to_server) {
+                    newOrder.delivery_received_on = moment(newOrder.delivery_received_on, "DD.MM.YYYY").format();
+                } else {
+                    newOrder.delivery_received_on = moment(newOrder.delivery_received_on).format("DD.MM.YYYY");
+                }
             }
         }
-    }
 
-    function fillChoices () {
-        Restangular.one("orders").options().then( function (response) {
-            $scope.postActions = response.actions.POST;
-        });
-        $('select.dropdown').dropdown("refresh");
+        function fillChoices () {
+            Restangular.one("orders").options().then( function (response) {
+                $scope.postActions = response.actions.POST;
+            });
+            $('select.dropdown').dropdown("set selected");
+        }
     }
-});
+);
 
 module.controller("CreateArticleController", function($rootScope, $scope, Restangular) {
     $scope.save = function() {
